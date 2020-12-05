@@ -16,4 +16,9 @@ class EntriesController extends Controller
 
         return response()->json([], 201);
     }
+
+    public function create()
+    {
+
+    }
 }

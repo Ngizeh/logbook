@@ -21,3 +21,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('entries', 'EntriesController@store')->name('entries.store')->middleware('auth');
+Route::get('entries', 'EntriesController@create')->name('entries.create')->middleware('auth');
