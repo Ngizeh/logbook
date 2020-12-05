@@ -8,17 +8,23 @@ use Illuminate\Http\Request;
 
 class EntriesController extends Controller
 {
-    public function store(EntryRequest $request)
-    {
-    	$data = $request->all();
+	public function store(EntryRequest $request)
+	{
+		$data = $request->all();
 
-        Entry::create($data);
+		Entry::create($data);
 
-        return response()->json([], 201);
-    }
+		return response()->json([], 201);
+	}
 
-    public function create()
-    {
+	public function create()
+	{
 
-    }
+	}
+
+	public function show()
+	{
+
+	}
+
 }
