@@ -12,7 +12,7 @@ class AddEntriesTest extends TestCase
 	use RefreshDatabase;
 
 	public function validData($parameters = []): array
-    {
+	{
 		return array_merge([
 			'type' => 'Test type',
 			'description' => 'Test description',
