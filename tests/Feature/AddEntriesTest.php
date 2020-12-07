@@ -42,8 +42,8 @@ class AddEntriesTest extends TestCase
 	/** @test **/
 	public function guests_can_not_create_an_entry()
 	{
-	    $this->get(route('entries.create'))->assertStatus(302);
-		$this->post(route('entries.store'), $this->validData())->assertStatus(302);
+	    $this->get(route('entries.create'))->assertRedirect(route('login'));
+		$this->post(route('entries.store'), $this->validData())->assertRedirect(route('login'));
 
 		$this->assertEmpty(Entry::all());
 	}
@@ -55,7 +55,6 @@ class AddEntriesTest extends TestCase
 
 		$this->actingAs($user)
 				->post(route('entries.store'),$this->validData(['title' => null]))
-				->assertStatus(302)
 				->assertSessionHasErrors('title');
 
 		$this->assertEmpty(Entry::all());
@@ -69,7 +68,6 @@ class AddEntriesTest extends TestCase
 
 		$this->actingAs($user)
 				->post(route('entries.store'), $this->validData(['description' => null]))
-				->assertStatus(302)
 				->assertSessionHasErrors('description');
 
 		$this->assertEmpty(Entry::all());
@@ -82,7 +80,6 @@ class AddEntriesTest extends TestCase
 
 		$this->actingAs($user)
 				->post(route('entries.store'), $this->validData(['type' => null]))
-				->assertStatus(302)
 				->assertSessionHasErrors('type');
 
 		$this->assertEmpty(Entry::all());
