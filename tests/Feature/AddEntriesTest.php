@@ -29,8 +29,8 @@ class AddEntriesTest extends TestCase
 		$this->actingAs($user)->get(route('entries.create'))->assertStatus(200);
 
 		$this->actingAs($user)
-		->post(route('entries.store'),$this->validData())
-		->assertStatus(201);
+		->postJson(route('entries.store'),$this->validData())
+		->assertStatus(302);
 
 		$this->assertDatabaseHas('entries', [
 			'type' => 'Test type',
