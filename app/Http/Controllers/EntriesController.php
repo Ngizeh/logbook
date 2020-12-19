@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Entry;
 use App\Http\Requests\EntryRequest;
-use Illuminate\Http\Request;
 
 class EntriesController extends Controller
 {
