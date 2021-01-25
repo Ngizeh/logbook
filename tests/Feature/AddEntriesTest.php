@@ -42,10 +42,12 @@ class AddEntriesTest extends TestCase
 	/** @test **/
 	public function guests_can_not_create_an_entry()
 	{
-	    $this->get(route('entries.create'))->assertRedirect(route('login'));
-		$this->post(route('entries.store'), $this->validData())->assertRedirect(route('login'));
+	    $this->get(route('entries.create'));
+	    $this->assertGuest();
+        $this->post(route('entries.store'), $this->validData());
+        $this->assertGuest();
 
-		$this->assertEmpty(Entry::all());
+        $this->assertEmpty(Entry::all());
 	}
 
 	/** @test **/

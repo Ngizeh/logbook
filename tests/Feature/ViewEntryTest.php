@@ -33,7 +33,8 @@ class ViewEntryTest extends TestCase
 	public function guest_can_not_view_an_entry()
 	{
 		$entry = factory(Entry::class)->create();
-		$this->get(route('entries.show', $entry))->assertRedirect(route('login'));
+		$this->get(route('entries.show', $entry));
+        $this->assertGuest();
 	}
 
 

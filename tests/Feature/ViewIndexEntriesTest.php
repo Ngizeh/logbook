@@ -45,7 +45,8 @@ class ViewIndexEntriesTest extends TestCase
 	/** @test **/
 	public function guest_can_view_index_entries()
 	{
-		$this->get(route('entries.index'))->assertRedirect(route('login'));
+		$this->get(route('entries.index'));
+		$this->assertGuest();
 	}
 
 }
