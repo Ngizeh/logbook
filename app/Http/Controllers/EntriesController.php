@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entry;
 use App\Http\Requests\EntryRequest;
+use Illuminate\Http\Request;
 
 class EntriesController extends Controller
 {
@@ -28,10 +29,20 @@ class EntriesController extends Controller
 		return redirect()->to(route('entries.index'));
 	}
 
+	public function edit(Entry $entry)
+	{
+		return view('entries.edit', compact('entry'));
+	}
+
+	public function update(EntryRequest $request, Entry $entry)
+	{
+		$entry->update($request->only(['title', 'description', 'type']));
+
+		return redirect()->to(route('entries.show', $entry));
+	}
 
 	public function show(Entry $entry)
 	{
 		return view('entries.show', compact('entry'));
 	}
-
 }

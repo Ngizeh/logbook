@@ -28,8 +28,9 @@
 						<tr>
 							<td>{{ $entry->title }}</td>
 							<td>{{ $entry->description }}</td>
-							<td>
-								<a href="{{ route('entries.show', $entry) }}">view</a>
+							<td class="text-right">
+								<a class="btn btn-primary" href="{{ route('entries.show', $entry) }}">view</a>
+								<a class="btn btn-secondary" href="{{ route('entries.edit', $entry) }}">Edit</a>
 							</td>
 						</tr>
 						@empty

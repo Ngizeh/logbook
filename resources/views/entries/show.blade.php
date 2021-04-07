@@ -19,6 +19,9 @@
 				<div class="card-body">
 					{{ $entry->description }}
 				</div>
+				<div class="card-footer text-center">
+					<a href="{{ route('entries.edit', $entry) }}">Edit Entry</a>
+				</div>
 			</div>
 		</div>
 	</div>
