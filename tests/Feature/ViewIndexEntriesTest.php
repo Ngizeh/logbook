@@ -26,11 +26,12 @@ class ViewIndexEntriesTest extends TestCase
 				->assertViewIs('entries.index')
 				->assertSee($entry->title)
 				->assertSee($entry->description)
+				->assertDontSee("No entry found")
 				->assertSee(route('entries.show', $entry));
 	}
 
 	/** @test **/
-	public function user_is_promted_to_add_an_entry_if_empty()
+	public function user_is_prompted_to_add_an_entry_if_empty()
 	{
 
 		$user = factory(User::class)->create();

@@ -23,8 +23,11 @@
 						<textarea type="text" class="form-control" name="description" id="description">{{ old('entry') }}</textarea>
 						<span class="text-danger">{{ $errors->first('description') }}</span>
 					</div>
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</form>
+					<div class="d-flex justify-content-between">
+						<button type="submit" class="btn btn-primary">Submit</button>
+						<a href="{{ route('entries.index') }}" class="btn btn-link">Cancel</a>
+					</div>
+				</form> 
 			</div>
 		</div>
 	</div>

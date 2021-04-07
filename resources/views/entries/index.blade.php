@@ -5,7 +5,17 @@
 	<div class="row justify-content-center">
 		<div class="col-md-8">
 			<div class="card">
-				<table class="table">
+				<div class="card-header">
+					<div class="row">
+						<div class="col-md-6">
+							Entries
+						</div>
+						<div class="col-md-6 text-right">
+							<a href="{{ route('entries.create') }}" class="btn btn-success">Add</a>
+						</div>
+					</div>
+				</div>
+				<table class="table table-hover">
 					<thead>
 						<tr>
 							<th>Title</th>
@@ -26,7 +36,7 @@
 						<tr>
 							<td colspan="3" class="text-center">
 								No entry found
-								<a href="{{ route('entries.create') }}" >Add Entry</a>
+								<a href="{{ route('entries.create') }}" >Add an entry</a>
 							</td>
 						</tr>
 						@endforelse
