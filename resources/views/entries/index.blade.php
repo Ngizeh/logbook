@@ -28,9 +28,14 @@
 						<tr>
 							<td>{{ $entry->title }}</td>
 							<td>{{ $entry->description }}</td>
-							<td class="text-right">
-								<a class="btn btn-primary" href="{{ route('entries.show', $entry) }}">view</a>
-								<a class="btn btn-secondary" href="{{ route('entries.edit', $entry) }}">Edit</a>
+							<td class="d-flex justify-content-end">
+								<a class="mr-2 btn btn-primary" href="{{ route('entries.show', $entry) }}">view</a>
+								<a class="mr-2 btn btn-secondary" href="{{ route('entries.edit', $entry) }}">Edit</a>
+								<form action="{{ route('entries.destroy', $entry) }}" method="post">
+									@method('delete')
+									@csrf
+									<button type="submit" class="mr-2 btn btn-danger" href="{{ route('entries.edit', $entry) }}">Delete</button>
+								</form>
 							</td>
 						</tr>
 						@empty

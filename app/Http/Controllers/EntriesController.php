@@ -84,4 +84,12 @@ class EntriesController extends Controller
 	{
 		return view('entries.show', compact('entry'));
 	}
+
+	public function destroy(Entry $entry)
+	{
+		$entry->delete();
+
+		return redirect()->to(route('entries.index'));
+	}
+	
 }
