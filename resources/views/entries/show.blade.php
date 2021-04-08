@@ -9,6 +9,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							{{ $entry->title }}
+                            <span class="text-sm">{{ $entry->formatted_date }}</span>
 						</div>
 						<div class="col-md-6 text-right">
 							{{ $entry->category->name }}

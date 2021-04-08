@@ -26,7 +26,8 @@ class ViewEntryTest extends TestCase
 				->assertViewHas('entry', $entry)
 				->assertSee($entry->title)
 				->assertSee($entry->type)
-				->assertSee($entry->description);
+				->assertSee($entry->short_description)
+				->assertSee($entry->formatted_date);
 	}
 
 	/** @test **/

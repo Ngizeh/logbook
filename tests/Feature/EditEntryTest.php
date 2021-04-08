@@ -6,7 +6,6 @@ use App\Category;
 use App\Entry;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class EditEntryTest extends TestCase
@@ -20,17 +19,17 @@ class EditEntryTest extends TestCase
     {
         parent::setUp();
 
-        $this->category = factory(Category::class)->create()->id;
+        $this->category = factory(Category::class)->create();
 
         $this->entry = factory(Entry::class)->create($this->validData());
     }
 
-    private function validData($parameters = [])
+    private function validData($parameters = []): array
     {
         return array_merge([
             'title' => 'New Title',
             'description' => 'New Description',
-            'category_id' => $this->category
+            'category_id' => $this->category->id
         ], $parameters);
     }
 

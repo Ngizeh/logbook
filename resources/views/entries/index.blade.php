@@ -37,7 +37,6 @@
 											<path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
 										  </svg>
 									</span>
-								  
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 									  <a class="dropdown-item" href="{{ route('entries.show', $entry) }}">View</a>
 									  <a class="dropdown-item" href="{{ route('entries.edit', $entry) }}">Edit</a>
