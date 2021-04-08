@@ -11,7 +11,7 @@
 							{{ $entry->title }}
 						</div>
 						<div class="col-md-6 text-right">
-							{{ $entry->type }}
+							{{ $entry->category->name }}
 						</div>
 					</div>
 				</div>

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Category;
 use App\Entry;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -11,43 +12,55 @@ class AddEntriesTest extends TestCase
 {
 	use RefreshDatabase;
 
+	private $category;
+
+	public function setUp(): void
+	{
+		parent::setUp();
+		$this->category = factory(Category::class)->create();
+	}
+
 	public function validData($parameters = []): array
 	{
 		return array_merge([
-			'type' => 'Test type',
+			'title' => 'Test title',
 			'description' => 'Test description',
-			'title' => 'Test title'
+			'category_id' => $this->category->id
 		], $parameters);
 	}
 
 	/** @test **/
 	public function can_create_post_an_entry()
 	{
+		$this->withoutExceptionHandling();
 
 		$user = factory(User::class)->create();
 
-		$this->actingAs($user)->get(route('entries.create'))->assertStatus(200);
+		$this->actingAs($user)->get(route('entries.create'))
+		->assertSee($this->category->name)
+		->assertStatus(200);
 
 		$this->actingAs($user)
-		->postJson(route('entries.store'),$this->validData())
-		->assertStatus(302);
+			->postJson(route('entries.store'), $this->validData())
+			->assertStatus(302);
 
 		$this->assertDatabaseHas('entries', [
-			'type' => 'Test type',
+			'title' => 'Test title',
 			'description' => 'Test description',
-			'title' => 'Test title'
+			'category_id' => $this->category->id
 		]);
 	}
 
 	/** @test **/
 	public function guests_can_not_create_an_entry()
 	{
-	    $this->get(route('entries.create'));
-	    $this->assertGuest();
-        $this->post(route('entries.store'), $this->validData());
-        $this->assertGuest();
+		$this->get(route('entries.create'));
+		$this->assertGuest();
 
-        $this->assertEmpty(Entry::all());
+		$this->post(route('entries.store'), $this->validData());
+		$this->assertGuest();
+
+		$this->assertEmpty(Entry::all());
 	}
 
 	/** @test **/
@@ -56,8 +69,8 @@ class AddEntriesTest extends TestCase
 		$user = factory(User::class)->create();
 
 		$this->actingAs($user)
-				->post(route('entries.store'),$this->validData(['title' => null]))
-				->assertSessionHasErrors('title');
+			->post(route('entries.store'), $this->validData(['title' => null]))
+			->assertSessionHasErrors('title');
 
 		$this->assertEmpty(Entry::all());
 	}
@@ -69,23 +82,21 @@ class AddEntriesTest extends TestCase
 		$user = factory(User::class)->create();
 
 		$this->actingAs($user)
-				->post(route('entries.store'), $this->validData(['description' => null]))
-				->assertSessionHasErrors('description');
+			->post(route('entries.store'), $this->validData(['description' => null]))
+			->assertSessionHasErrors('description');
 
 		$this->assertEmpty(Entry::all());
 	}
 
 	/** @test **/
-	public function type_is_required_create_an_entry()
+	public function category_Id_is_required_create_an_entry()
 	{
 		$user = factory(User::class)->create();
 
 		$this->actingAs($user)
-				->post(route('entries.store'), $this->validData(['type' => null]))
-				->assertSessionHasErrors('type');
+			->post(route('entries.store'), $this->validData(['category_id' => null]))
+			->assertSessionHasErrors('category_id');
 
 		$this->assertEmpty(Entry::all());
 	}
-
-
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Entry;
 use App\Http\Requests\EntryRequest;
 use Illuminate\Http\RedirectResponse;
@@ -28,7 +29,9 @@ class EntriesController extends Controller
 	*/
 	public function create()
 	{
-		return view('entries.create');
+		$categories =  Category::all();
+
+		return view('entries.create', compact('categories'));
 	}
 
 	/**
@@ -56,7 +59,9 @@ class EntriesController extends Controller
 	 */
 	public function edit(Entry $entry): View
 	{
-		return view('entries.edit', compact('entry'));
+		$categories = Category::all();
+
+		return view('entries.edit', compact('entry', 'categories'));
 	}
     
 	/**
@@ -68,7 +73,7 @@ class EntriesController extends Controller
 	 */
 	public function update(EntryRequest $request, Entry $entry) :  RedirectResponse 
 	{
-		$entry->update($request->only(['title', 'description', 'type']));
+		$entry->update($request->only(['title', 'description', 'category_id']));
 
 		return redirect()->to(route('entries.show', $entry));
 	}

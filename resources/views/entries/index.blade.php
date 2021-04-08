@@ -15,12 +15,13 @@
 						</div>
 					</div>
 				</div>
-				<table class="table table-hover">
+				<table class="table">
 					<thead>
 						<tr>
 							<th>Title</th>
 							<th>Description</th>
-							<th></th>
+							<th>Category</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -28,21 +29,34 @@
 						<tr>
 							<td>{{ $entry->title }}</td>
 							<td>{{ $entry->description }}</td>
-							<td class="d-flex justify-content-end">
-								<a class="mr-2 btn btn-primary" href="{{ route('entries.show', $entry) }}">view</a>
-								<a class="mr-2 btn btn-secondary" href="{{ route('entries.edit', $entry) }}">Edit</a>
-								<form action="{{ route('entries.destroy', $entry) }}" method="post">
-									@method('delete')
-									@csrf
-									<button type="submit" class="mr-2 btn btn-danger" href="{{ route('entries.edit', $entry) }}">Delete</button>
-								</form>
+							<td>{{ $entry->category->name }}</td>
+							<td>
+								<div class="dropdown show">
+									<span role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+											<path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+										  </svg>
+									</span>
+								  
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+									  <a class="dropdown-item" href="{{ route('entries.show', $entry) }}">View</a>
+									  <a class="dropdown-item" href="{{ route('entries.edit', $entry) }}">Edit</a>
+									  <form action="{{ route('entries.destroy', $entry) }}" method="post">
+										  @method('delete')
+										  @csrf
+										  <button type="submit" class="dropdown-item" href="{{ route('entries.edit', $entry) }}">Delete</button>
+									  </form>
+									</div>
+								  </div>
 							</td>
 						</tr>
 						@empty
 						<tr>
-							<td colspan="3" class="text-center">
-								No entry found
-								<a href="{{ route('entries.create') }}" >Add an entry</a>
+							<td colspan="4" class="text-center">
+								<span>
+									No entry found
+									<a href="{{ route('entries.create') }}" >Add an entry</a>
+								</span>
 							</td>
 						</tr>
 						@endforelse

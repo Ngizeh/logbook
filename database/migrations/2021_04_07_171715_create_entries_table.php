@@ -17,7 +17,7 @@ class CreateEntriesTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->string('type');
+            $table->foreignId('category_id')->constrained('categories');
             $table->timestamps();
         });
     }

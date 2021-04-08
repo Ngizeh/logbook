@@ -15,8 +15,13 @@
 					</div>
 					<div class="form-group">
 						<label for="type">Type:</label>
-						<input type="text" class="form-control" name="type" value="{{ old('type') }}" id="type">
-						<span class="text-danger">{{ $errors->first('type') }}</span>
+						<select name="category_id" id="category_id" class="form-control">
+							<option disabled>Choose your category</option>
+							@foreach ($categories as $category )
+								<option value="{{ $category->id }}">{{ $category->name }}</option>
+							@endforeach
+						</select>
+						<span class="text-danger">{{ $errors->first('category_id') }}</span>
 					</div>
 					<div class="form-group">
 						<label for="description">Description:</label>

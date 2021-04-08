@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Category;
 use App\Entry;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,46 +14,43 @@ class EditEntryTest extends TestCase
     use RefreshDatabase;
 
     private $entry;
+    private $category;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->entry = factory(Entry::class)->create([
-            'title' => 'New Title',
-            'description' => 'New Description',
-            'type' => 'New Type'
-        ]);
-    }
+        $this->category = factory(Category::class)->create()->id;
 
+        $this->entry = factory(Entry::class)->create($this->validData());
+    }
 
     private function validData($parameters = [])
     {
         return array_merge([
             'title' => 'New Title',
             'description' => 'New Description',
-            'type' => 'New Type'
+            'category_id' => $this->category
         ], $parameters);
     }
-
 
     /** @test **/
     public function authenticated_users_can_edit_an_entry()
     {
-        $this->withoutExceptionHandling();
 
         $user = factory(User::class)->create();
 
         $this->actingAs($user)->get(route('entries.edit', $this->entry))
+            ->assertSee($this->category->name)
             ->assertViewIs('entries.edit')
             ->assertOk();
 
         $this->actingAs($user)->patch(route('entries.update', $this->entry), $this->validData())
             ->assertRedirect(route('entries.show', $this->entry));
 
-        $this->assertEquals('New Title', $this->entry->fresh()->title);
-        $this->assertEquals('New Description', $this->entry->fresh()->description);
-        $this->assertEquals('New Type', $this->entry->fresh()->type);
+        $this->assertEquals('New Title', $this->entry->title);
+        $this->assertEquals('New Description', $this->entry->description);
+        $this->assertEquals(1, $this->entry->category_id);
     }
 
     /** @test **/
@@ -71,11 +69,7 @@ class EditEntryTest extends TestCase
             ->patch(route('entries.update', $this->entry), $this->validData(['title' => null]))
             ->assertSessionHasErrors('title');
 
-        tap($this->entry->fresh(), function ($entry) {
-            $this->assertEquals('New Title', $entry->title);
-            $this->assertEquals('New Description', $entry->description);
-            $this->assertEquals('New Type', $entry->type);
-        });
+        $this->assertDatabaseHas('entries', $this->validData());
     }
 
     /** @test **/
@@ -88,26 +82,18 @@ class EditEntryTest extends TestCase
             ->patch(route('entries.update', $this->entry), $this->validData(['description' => null]))
             ->assertSessionHasErrors('description');
 
-        tap($this->entry->fresh(), function ($entry) {
-            $this->assertEquals('New Title', $entry->title);
-            $this->assertEquals('New Description', $entry->description);
-            $this->assertEquals('New Type', $entry->type);
-        });
+        $this->assertDatabaseHas('entries', $this->validData());
     }
 
     /** @test **/
-    public function type_is_required_create_an_entry()
+    public function category_id_is_required_create_an_entry()
     {
         $user = factory(User::class)->create();
 
         $this->actingAs($user)
-            ->patch(route('entries.update', $this->entry), $this->validData(['type' => null]))
-            ->assertSessionHasErrors('type');
+            ->patch(route('entries.update', $this->entry), $this->validData(['category_id' => null]))
+            ->assertSessionHasErrors('category_id');
 
-        tap($this->entry->fresh(), function ($entry) {
-            $this->assertEquals('New Title', $entry->title);
-            $this->assertEquals('New Description', $entry->description);
-            $this->assertEquals('New Type', $entry->type);
-        });
+        $this->assertDatabaseHas('entries', $this->validData());
     }
 }

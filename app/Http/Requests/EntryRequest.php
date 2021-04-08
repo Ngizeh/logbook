@@ -26,7 +26,7 @@ class EntryRequest extends FormRequest
         return [
             'title' => 'required',
             'description' => 'required',
-            'type' => 'required',
+            'category_id' => 'required|exists:categories,id',
         ];
     }
 }
