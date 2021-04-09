@@ -14,6 +14,14 @@ class Entry extends Model
 {
     protected $guarded = [];
 
+    public function scopeForThisWeek($query)
+    {
+        $query->whereBetween('created_at', [
+            now()->startOfWeek(),
+            now()->endOfWeek()
+        ]);
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

@@ -13,11 +13,11 @@ class EntriesController extends Controller
 	/**
 	 * List of the resource to display
 	 *
-	 * @return View 
+	 * @return View
 	 */
-	public function index()
-	{
-		$entries = Entry::all();
+	public function index(): View
+    {
+		$entries = Entry::forThisWeek()->get();
 
 		return view('entries.index', compact('entries'));
 	}
@@ -25,10 +25,10 @@ class EntriesController extends Controller
    /**
 	* Show a form to create a resource
 	*
-	* @return  View 
+	* @return  View
 	*/
-	public function create()
-	{
+	public function create(): View
+    {
 		$categories =  Category::all();
 
 		return view('entries.create', compact('categories'));
@@ -63,27 +63,27 @@ class EntriesController extends Controller
 
 		return view('entries.edit', compact('entry', 'categories'));
 	}
-    
+
 	/**
 	 * Update a specific resource
 	 *
-	 * @param   EntryRequest  $request  
-	 * @param   Entry         $entry    
-	 * @return  RedirectResponse                 
+	 * @param   EntryRequest  $request
+	 * @param   Entry         $entry
+	 * @return  RedirectResponse
 	 */
-	public function update(EntryRequest $request, Entry $entry) :  RedirectResponse 
+	public function update(EntryRequest $request, Entry $entry) :  RedirectResponse
 	{
 		$entry->update($request->only(['title', 'description', 'category_id']));
 
 		return redirect()->to(route('entries.show', $entry));
 	}
-	
+
 	/**
 	 * Show a specified resource
 	 *
-	 * @param   Entry  $entry 
+	 * @param   Entry  $entry
 	 *
-	 * @return View 
+	 * @return View
 	 */
 	public function show(Entry $entry) : View
 	{
@@ -96,5 +96,5 @@ class EntriesController extends Controller
 
 		return redirect()->to(route('entries.index'));
 	}
-	
+
 }

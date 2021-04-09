@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Entry;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -26,7 +27,7 @@ class ViewIndexEntriesTest extends TestCase
 				->assertViewIs('entries.index')
 				->assertSee($entry->title)
 				->assertSee($entry->formatted_date)
-				->assertSee($entry->description)
+				->assertSee($entry->short_description)
 				->assertDontSee("No entry found")
 				->assertSee(route('entries.show', $entry));
 	}
@@ -49,6 +50,27 @@ class ViewIndexEntriesTest extends TestCase
 	{
 		$this->get(route('entries.index'));
 		$this->assertGuest();
+	}
+
+	/** @test **/
+	public function only_entries_for_the_current_week_are_shown()
+	{
+	    Carbon::setTestNow('Friday April 9th, 2021');
+	    $thisWeekEntry = factory(Entry::class)->create();
+	    $lastWeekEntry = factory(Entry::class)->create(['created_at' => now()->subWeek()]);
+
+	    $user = factory(User::class)->create();
+
+	    $this->actingAs($user)->get(route('entries.index'))
+            ->assertViewHas('entries', function($entries) use ($thisWeekEntry, $lastWeekEntry){
+                if(!$entries->contains($thisWeekEntry)){
+                    $this->fail('This week entries are not shown');
+                }
+                if($entries->contains($lastWeekEntry)){
+                    $this->fail('Found last week entries');
+                }
+                return true;
+            });
 	}
 
 }

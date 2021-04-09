@@ -37,4 +37,18 @@ class EntriesTest extends TestCase
 
         $this->assertEquals('April 8th 2021 8:01AM', $entry->formatted_date);
     }
+
+    /** @test **/
+    public function entries_for_this_week_static_method()
+    {
+        Carbon::setTestNow('Friday April 9th, 2021');
+        $thisWeekEntry = factory(Entry::class)->create();
+        $lastWeekEntry = factory(Entry::class)->create(['created_at' => now()->subWeek()]);
+
+        $entry = Entry::forThisWeek()->get();
+
+        $this->assertTrue($entry->contains($thisWeekEntry));
+        $this->assertFalse($entry->contains($lastWeekEntry));
+        $this->assertCount(1, $entry);
+    }
 }
