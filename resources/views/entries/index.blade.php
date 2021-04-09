@@ -19,9 +19,9 @@
 					<thead>
 						<tr>
                             <th>Date</th>
-							<th>Title</th>
-							<th>Description</th>
-							<th>Category</th>
+                            <th>Category</th>
+                            <th>Title</th>
+                            <th>Description</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -29,9 +29,9 @@
 						@forelse($entries as $entry)
 						<tr>
                             <td>{{ $entry->formatted_date }}</td>
-							<td>{{ $entry->title }}</td>
-							<td>{{ $entry->description }}</td>
-							<td>{{ $entry->category->name }}</td>
+                            <td>{{ $entry->category->name }}</td>
+                            <td>{{ $entry->title }}</td>
+                            <td>{{ $entry->short_description }}</td>
 							<td>
 								<div class="dropdown show">
 									<span role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
