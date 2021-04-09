@@ -25,6 +25,7 @@ class ViewIndexEntriesTest extends TestCase
 				->assertStatus(200)
 				->assertViewIs('entries.index')
 				->assertSee($entry->title)
+				->assertSee($entry->formatted_date)
 				->assertSee($entry->description)
 				->assertDontSee("No entry found")
 				->assertSee(route('entries.show', $entry));

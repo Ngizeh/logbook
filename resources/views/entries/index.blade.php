@@ -18,6 +18,7 @@
 				<table class="table">
 					<thead>
 						<tr>
+                            <th>Date</th>
 							<th>Title</th>
 							<th>Description</th>
 							<th>Category</th>
@@ -27,6 +28,7 @@
 					<tbody>
 						@forelse($entries as $entry)
 						<tr>
+                            <td>{{ $entry->formatted_date }}</td>
 							<td>{{ $entry->title }}</td>
 							<td>{{ $entry->description }}</td>
 							<td>{{ $entry->category->name }}</td>
