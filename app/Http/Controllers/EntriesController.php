@@ -93,14 +93,22 @@ class EntriesController extends Controller
 		return view('entries.show', compact('entry'));
 	}
 
-
-	public function destroy(Entry $entry)
+    /**
+     * @param Entry $entry
+     * @return RedirectResponse
+     * @throws \Exception
+     */
+	public function destroy(Entry $entry): RedirectResponse
     {
 		$entry->delete();
 
 		return redirect()->to(route('entries.index'));
 	}
 
+    /**
+     * Get Dates for the weeks entries
+     * @return array
+     */
     private function getDates(): array
     {
         $oldest = Entry::oldest()->first();
