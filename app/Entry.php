@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Category;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
@@ -19,6 +20,16 @@ class Entry extends Model
         $query->whereBetween('created_at', [
             now()->startOfWeek(),
             now()->endOfWeek()
+        ]);
+    }
+
+    public function scopeForWeekEnding($query, $date)
+    {
+        $date = Carbon::parse($date);
+
+        $query->whereBetween('created_at', [
+            $date->copy()->startOfWeek(),
+            $date->copy()->endOfWeek()
         ]);
     }
 
