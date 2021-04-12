@@ -73,4 +73,43 @@ class ViewIndexEntriesTest extends TestCase
             });
 	}
 
+	/** @test **/
+	public function list_entries_of_the_week_from_the_first_week_to_the_last_week_entries()
+	{
+        Carbon::setTestNow('April 11th, 2021');
+        factory(Entry::class)->create();
+        factory(Entry::class)->create(['created_at' => now()->subWeeks(3)]);
+
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user)->get(route('entries.index'))
+            ->assertViewHas('entriesDate', function($dates){
+                $this->assertContains('April 11, 2021', $dates);
+                $this->assertContains('April 4, 2021', $dates);
+                $this->assertContains('March 28, 2021', $dates);
+                $this->assertContains('March 21, 2021', $dates);
+
+                $this->assertEquals('April 11, 2021', $dates[0]);
+                $this->assertEquals('March 21, 2021', $dates[3]);
+
+                return true;
+            });
+    }
+
+    /** @test **/
+	public function current_week_end_is_displayed_if_no_entries_are_found()
+	{
+        Carbon::setTestNow('April 11th, 2021');
+
+        $this->assertEmpty(Entry::count());
+
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user)->get(route('entries.index'))
+            ->assertViewHas('entriesDate', function($dates){
+                $this->assertContains('April 11, 2021', $dates);
+                return true;
+            });
+    }
+
 }

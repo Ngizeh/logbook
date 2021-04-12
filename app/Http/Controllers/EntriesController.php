@@ -19,7 +19,10 @@ class EntriesController extends Controller
     {
 		$entries = Entry::forThisWeek()->get();
 
-		return view('entries.index', compact('entries'));
+		return view('entries.index', [
+		    'entries' => $entries,
+            'entriesDate' => $this->getDates()
+        ]);
 	}
 
    /**
@@ -90,11 +93,36 @@ class EntriesController extends Controller
 		return view('entries.show', compact('entry'));
 	}
 
+
 	public function destroy(Entry $entry)
-	{
+    {
 		$entry->delete();
 
 		return redirect()->to(route('entries.index'));
 	}
+
+    private function getDates(): array
+    {
+        $oldest = Entry::oldest()->first();
+
+        $dateFormat = 'F j, Y';
+
+        if(!$oldest){
+            return [now()->endOfWeek()->format($dateFormat)];
+        }
+
+        $oldest = $oldest->created_at->endOfWeek();
+        $latest = Entry::latest()->first()->created_at->endOfWeek();
+        $diff = $oldest->diffInWeeks($latest);
+
+        $dates = [];
+        $currentDate = $latest;
+        for($i = $diff; $i >= 0; $i--){
+            $dates[] = $currentDate->format($dateFormat);
+            $currentDate = $currentDate->copy()->subWeek();
+        }
+
+        return $dates;
+    }
 
 }
