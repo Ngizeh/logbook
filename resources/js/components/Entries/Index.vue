@@ -7,7 +7,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <select name="" id="" class="form-control" @change="weeklyEntry($event)">
-                                    <option v-for="date in dates" :value="date">Week Ending {{ date }}</option>
+                                    <option v-for="(date, index) in dates" :key="index" :value="date">Week Ending {{ date }}</option>
                                 </select>
                             </div>
                             <div class="col-md-6 text-right">

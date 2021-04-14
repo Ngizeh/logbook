@@ -2104,6 +2104,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'EntriesTable',
   props: ['entries', 'entry'],
@@ -2111,7 +2113,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       error: null,
       data: this.entries,
-      dropdown: "dropdown"
+      dropdown: "dropdown",
+      loading: false
     };
   },
   methods: {
@@ -2137,7 +2140,9 @@ __webpack_require__.r(__webpack_exports__);
 
     this.$root.$on('weekEntry', function (date) {
       axios.get(route('entries.weekending', date)).then(function (response) {
-        return _this2.data = response.data[0];
+        _this2.loading = true;
+        _this2.data = response.data[0];
+        _this2.loading = false;
       })["catch"](function (error) {
         return error.response.data.errors;
       });
@@ -38220,115 +38225,132 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("table", { staticClass: "table striped" }, [
-    _vm._m(0),
+  return _c("div", [
+    _c(
+      "p",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.loading,
+            expression: "loading"
+          }
+        ]
+      },
+      [_vm._v("Loading...")]
+    ),
     _vm._v(" "),
-    _vm.data.length > 0
-      ? _c(
-          "tbody",
-          _vm._l(_vm.data, function(entry) {
-            return _c("tr", { key: entry.id }, [
-              _c("td", [_vm._v(_vm._s(entry.formattedDate))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(entry.category.name))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(entry.title))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(entry.shortDescription))]),
-              _vm._v(" "),
-              _c("td", [
-                _c("div", { staticClass: "dropdown" }, [
-                  _c(
-                    "span",
-                    {
-                      attrs: {
-                        role: "button",
-                        id: "dropdownMenuLink",
-                        "data-toggle": _vm.toggle,
-                        "aria-haspopup": "false",
-                        "aria-expanded": "false"
-                      }
-                    },
-                    [
-                      _c(
-                        "svg",
-                        {
-                          staticClass: "bi bi-three-dots-vertical",
-                          attrs: {
-                            xmlns: "http://www.w3.org/2000/svg",
-                            width: "16",
-                            height: "16",
-                            fill: "currentColor",
-                            viewBox: "0 0 16 16"
-                          }
-                        },
-                        [
-                          _c("path", {
+    _c("table", { staticClass: "table striped" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _vm.data.length > 0
+        ? _c(
+            "tbody",
+            _vm._l(_vm.data, function(entry) {
+              return _c("tr", { key: entry.id }, [
+                _c("td", [_vm._v(_vm._s(entry.formattedDate))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(entry.category.name))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(entry.title))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(entry.shortDescription))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("div", { staticClass: "dropdown" }, [
+                    _c(
+                      "span",
+                      {
+                        attrs: {
+                          role: "button",
+                          id: "dropdownMenuLink",
+                          "data-toggle": _vm.toggle,
+                          "aria-haspopup": "false",
+                          "aria-expanded": "false"
+                        }
+                      },
+                      [
+                        _c(
+                          "svg",
+                          {
+                            staticClass: "bi bi-three-dots-vertical",
                             attrs: {
-                              d:
-                                "M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"
+                              xmlns: "http://www.w3.org/2000/svg",
+                              width: "16",
+                              height: "16",
+                              fill: "currentColor",
+                              viewBox: "0 0 16 16"
                             }
-                          })
-                        ]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "dropdown-menu",
-                      attrs: { "aria-labelledby": "dropdownMenuLink" }
-                    },
-                    [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "dropdown-item",
-                          attrs: { href: _vm.route("entries.show", entry) }
-                        },
-                        [_vm._v("View")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "dropdown-item",
-                          attrs: { href: _vm.route("entries.edit", entry) }
-                        },
-                        [_vm._v("Edit")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "form",
-                        {
-                          on: {
-                            submit: function($event) {
-                              $event.preventDefault()
-                              return _vm.deleteEntry(entry)
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"
+                              }
+                            })
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "dropdown-menu",
+                        attrs: { "aria-labelledby": "dropdownMenuLink" }
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { href: _vm.route("entries.show", entry) }
+                          },
+                          [_vm._v("View")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { href: _vm.route("entries.edit", entry) }
+                          },
+                          [_vm._v("Edit")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "form",
+                          {
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.deleteEntry(entry)
+                              }
                             }
-                          }
-                        },
-                        [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "dropdown-item",
-                              attrs: { type: "submit" }
-                            },
-                            [_vm._v("Delete")]
-                          )
-                        ]
-                      )
-                    ]
-                  )
+                          },
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "dropdown-item",
+                                attrs: { type: "submit" }
+                              },
+                              [_vm._v("Delete")]
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ])
                 ])
               ])
-            ])
-          }),
-          0
-        )
-      : _c("tbody", [_vm._m(1)])
+            }),
+            0
+          )
+        : _c("tbody", [_vm._m(1)])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -38357,7 +38379,7 @@ var staticRenderFns = [
     return _c("tr", [
       _c("td", { staticClass: "text-center", attrs: { colspan: "4" } }, [
         _c("span", [
-          _vm._v("\n\t\t\t\t\tNo entry found\n\t\t\t\t\t"),
+          _vm._v("\n\t\t\t\t\t\tNo entry found\n\t\t\t\t\t\t"),
           _c("a", { attrs: { href: "/entries/create" } }, [
             _vm._v("Add an entry")
           ])
@@ -38408,10 +38430,12 @@ var render = function() {
                         }
                       }
                     },
-                    _vm._l(_vm.dates, function(date) {
-                      return _c("option", { domProps: { value: date } }, [
-                        _vm._v("Week Ending " + _vm._s(date))
-                      ])
+                    _vm._l(_vm.dates, function(date, index) {
+                      return _c(
+                        "option",
+                        { key: index, domProps: { value: date } },
+                        [_vm._v("Week Ending " + _vm._s(date))]
+                      )
                     }),
                     0
                   )
@@ -50709,15 +50733,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*!****************************************************!*\
   !*** ./resources/js/components/Entries/Create.vue ***!
   \****************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Create_vue_vue_type_template_id_304845b4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Create.vue?vue&type=template&id=304845b4&scoped=true& */ "./resources/js/components/Entries/Create.vue?vue&type=template&id=304845b4&scoped=true&");
 /* harmony import */ var _Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Create.vue?vue&type=script&lang=js& */ "./resources/js/components/Entries/Create.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -50747,7 +50770,7 @@ component.options.__file = "resources/js/components/Entries/Create.vue"
 /*!*****************************************************************************!*\
   !*** ./resources/js/components/Entries/Create.vue?vue&type=script&lang=js& ***!
   \*****************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

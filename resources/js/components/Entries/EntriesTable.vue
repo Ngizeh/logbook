@@ -1,4 +1,6 @@
 <template>
+<div>
+	<p v-show="loading">Loading...</p>
 	<table class="table striped">
 		<thead>
 			<tr>
@@ -44,7 +46,7 @@
 			</tr>
 		</tbody>
 	</table>
-
+</div>
 </template>
 
 <script>
@@ -56,6 +58,7 @@
 				error: null,
 				data : this.entries,
 				dropdown : "dropdown",
+				loading : false
 			}
 		},
 		methods : {
@@ -76,7 +79,11 @@
 		mounted() {
 			this.$root.$on('weekEntry', (date) => {
 			   axios.get(route('entries.weekending', date))
-			       .then(response => this.data = response.data[0])
+			       .then(response => {
+					   this.loading = true
+					   this.data = response.data[0]
+					   this.loading = false
+					   })
 			       .catch(error => error.response.data.errors)
 			});
 		},
