@@ -11,6 +11,6 @@ class EntryEndingController extends Controller
     {
         $entries = Entry::forWeekEnding($date)->get();
 
-        return view('entries.table', compact('entries'));
+        return response()->json([$entries], 200);;
     }
 }

@@ -6,6 +6,7 @@ use App\Category;
 use App\Entry;
 use App\Http\Requests\EntryRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 class EntriesController extends Controller
@@ -15,10 +16,15 @@ class EntriesController extends Controller
 	 *
 	 * @return View
 	 */
-	public function index(): View
+	public function index()
     {
-		$entries = Entry::forThisWeek()->get();
 
+    	$entries = Entry::forThisWeek()->latest()->get();
+    	$dates = $this->getDates();
+
+    	if(request()->wantsJson()){
+    		return [$entries, $dates];
+    	}
 		return view('entries.index', [
 		    'entries' => $entries,
             'entriesDate' => $this->getDates()
@@ -98,30 +104,32 @@ class EntriesController extends Controller
      * @return RedirectResponse
      * @throws \Exception
      */
-	public function destroy(Entry $entry): RedirectResponse
+	public function destroy(Entry $entry)
     {
 		$entry->delete();
 
-		return redirect()->to(route('entries.index'));
+		return response()->json([$entry], 202);
+
+		// return redirect()->to(route('entries.index'));
 	}
 
     /**
      * Get Dates for the weeks entries
-     * @return array
+     * @return Collection
      */
-    private function getDates(): array
+    private function getDates(): \Illuminate\Support\Collection
     {
         $oldest = Entry::oldest()->first();
 
         $dateFormat = 'F j, Y';
 
         if(!$oldest){
-            return [now()->endOfWeek()->format($dateFormat)];
+            return collect(now()->endOfWeek()->format($dateFormat));
         }
 
         $oldest = $oldest->created_at->endOfWeek();
         $latest = Entry::latest()->first()->created_at->endOfWeek();
-        $diff = $oldest->diffInWeeks($latest);
+        $diff = $oldest->diffInWeeks($latest) + 1;
 
         $dates = [];
         $currentDate = $latest;
@@ -130,7 +138,7 @@ class EntriesController extends Controller
             $currentDate = $currentDate->copy()->subWeek();
         }
 
-        return $dates;
+        return collect($dates);
     }
 
 }

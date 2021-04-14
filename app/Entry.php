@@ -15,6 +15,10 @@ class Entry extends Model
 {
     protected $guarded = [];
 
+    protected  $with = ['category'];
+
+    protected $appends = ['formattedDate', 'shortDescription'];
+
     public function scopeForThisWeek($query)
     {
         $query->whereBetween('created_at', [

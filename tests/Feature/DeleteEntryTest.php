@@ -17,7 +17,7 @@ class DeleteEntryTest extends TestCase
         $user = factory(User::class)->create();
         $entry = factory(Entry::class)->create();
 
-        $this->actingAs($user)->delete(route('entries.destroy', $entry))->assertRedirect(route('entries.index'));
+        $this->actingAs($user)->delete(route('entries.destroy', $entry))->assertStatus(202);
 
         $this->assertDatabaseMissing('entries', [$entry]);
     }
