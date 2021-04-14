@@ -2106,9 +2106,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'EntriesTable',
-  props: ['entries', 'entry'],
+  name: "EntriesTable",
+  props: ["entries", "entry"],
   data: function data() {
     return {
       error: null,
@@ -2121,7 +2140,7 @@ __webpack_require__.r(__webpack_exports__);
     deleteEntry: function deleteEntry(entry) {
       var _this = this;
 
-      axios["delete"](route('entries.destroy', entry)).then(function (response) {
+      axios["delete"](route("entries.destroy", entry)).then(function (response) {
         _this.data.splice(_this.data.indexOf(entry), 1);
 
         _this.dropdown = "";
@@ -2138,8 +2157,8 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this2 = this;
 
-    this.$root.$on('weekEntry', function (date) {
-      axios.get(route('entries.weekending', date)).then(function (response) {
+    this.$root.$on("weekEntry", function (date) {
+      axios.get(route("entries.weekending", date)).then(function (response) {
         _this2.loading = true;
         _this2.data = response.data[0];
         _this2.loading = false;
@@ -38379,7 +38398,7 @@ var staticRenderFns = [
     return _c("tr", [
       _c("td", { staticClass: "text-center", attrs: { colspan: "4" } }, [
         _c("span", [
-          _vm._v("\n\t\t\t\t\t\tNo entry found\n\t\t\t\t\t\t"),
+          _vm._v("\n            No entry found\n            "),
           _c("a", { attrs: { href: "/entries/create" } }, [
             _vm._v("Add an entry")
           ])
