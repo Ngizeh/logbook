@@ -9,26 +9,26 @@ use Tests\TestCase;
 
 class DeleteEntryTest extends TestCase
 {
-    use RefreshDatabase;
+	use RefreshDatabase;
 
-    /** @test **/
-    public function can_delete_an_entry()
-    {
-        $user = factory(User::class)->create();
-        $entry = factory(Entry::class)->create();
+	/** @test **/
+	public function can_delete_an_entry()
+	{
+		$user = factory(User::class)->create();
+		$entry = factory(Entry::class)->create();
 
-        $this->actingAs($user)->delete(route('entries.destroy', $entry))->assertStatus(202);
+		$this->actingAs($user)->delete(route('entries.destroy', $entry))->assertStatus(202);
 
-        $this->assertDatabaseMissing('entries', [$entry]);
-    }
+		$this->assertDatabaseMissing('entries', [$entry]);
+	}
 
-    /** @test **/
-    public function guests_can_not_delete_an_entry()
-    {
-        $entry = factory(Entry::class)->create();
+	/** @test **/
+	public function guests_can_not_delete_an_entry()
+	{
+		$entry = factory(Entry::class)->create();
 
-        $this->delete(route('entries.destroy', $entry))->assertRedirect(route('login'));
+		$this->delete(route('entries.destroy', $entry))->assertRedirect(route('login'));
 
-        $this->assertNotNull($entry);
-    }
+		$this->assertNotNull($entry);
+	}
 }

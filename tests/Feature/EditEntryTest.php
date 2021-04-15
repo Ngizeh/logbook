@@ -45,7 +45,7 @@ class EditEntryTest extends TestCase
             ->assertOk();
 
         $this->actingAs($user)->patch(route('entries.update', $this->entry), $this->validData())
-            ->assertRedirect(route('entries.show', $this->entry));
+            ->assertStatus(201);
 
         $this->assertEquals('New Title', $this->entry->title);
         $this->assertEquals('New Description', $this->entry->description);

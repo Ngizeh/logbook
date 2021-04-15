@@ -50,13 +50,13 @@ class EntriesController extends Controller
 	 *
 	 * @return  RedirectResponse Redirect Response
 	 */
-	public function store(EntryRequest $request) : RedirectResponse
+	public function store(EntryRequest $request)
 	{
 		$data = $request->all();
 
 		Entry::create($data);
 
-		return redirect()->to(route('entries.index'));
+		return response()->json([], 201);
 	}
 
 	/**
@@ -80,11 +80,11 @@ class EntriesController extends Controller
 	 * @param   Entry         $entry
 	 * @return  RedirectResponse
 	 */
-	public function update(EntryRequest $request, Entry $entry) :  RedirectResponse
+	public function update(EntryRequest $request, Entry $entry)
 	{
 		$entry->update($request->only(['title', 'description', 'category_id']));
 
-		return redirect()->to(route('entries.show', $entry));
+		return response()->json([], 201);
 	}
 
 	/**
@@ -101,7 +101,7 @@ class EntriesController extends Controller
 
     /**
      * @param Entry $entry
-     * @return RedirectResponse
+     * @return Response
      * @throws \Exception
      */
 	public function destroy(Entry $entry)
@@ -109,8 +109,6 @@ class EntriesController extends Controller
 		$entry->delete();
 
 		return response()->json([$entry], 202);
-
-		// return redirect()->to(route('entries.index'));
 	}
 
     /**
