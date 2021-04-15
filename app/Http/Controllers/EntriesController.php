@@ -18,7 +18,6 @@ class EntriesController extends Controller
 	 */
 	public function index()
     {
-
     	$entries = Entry::forThisWeek()->latest()->get();
     	$dates = $this->getDates();
 
@@ -113,16 +112,16 @@ class EntriesController extends Controller
 
     /**
      * Get Dates for the weeks entries
-     * @return Collection
+     * @return array
      */
-    private function getDates(): \Illuminate\Support\Collection
+    private function getDates()
     {
         $oldest = Entry::oldest()->first();
 
         $dateFormat = 'F j, Y';
 
         if(!$oldest){
-            return collect(now()->endOfWeek()->format($dateFormat));
+            return [now()->endOfWeek()->format($dateFormat)];
         }
 
         $oldest = $oldest->created_at->endOfWeek();
@@ -136,7 +135,7 @@ class EntriesController extends Controller
             $currentDate = $currentDate->copy()->subWeek();
         }
 
-        return collect($dates);
+        return $dates;
     }
 
 }
