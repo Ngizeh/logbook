@@ -22,14 +22,11 @@ class ViewIndexEntriesTest extends TestCase
 		$entry = factory(Entry::class)->create();
 
 		$this->actingAs($user)
-				->get(route('entries.index'))
+				->getJson(route('entries.index'))
 				->assertStatus(200)
-				->assertViewIs('entries.index')
 				->assertSee($entry->title)
 				->assertSee($entry->formatted_date)
 				->assertSee($entry->short_description);
-//				->assertDontSee("No entry found")
-//				->assertSee(route('entries.show', $entry));
 	}
 
 	/** @test **/
@@ -61,16 +58,9 @@ class ViewIndexEntriesTest extends TestCase
 
 	    $user = factory(User::class)->create();
 
-	    $this->actingAs($user)->get(route('entries.index'))
-            ->assertViewHas('entries', function($entries) use ($thisWeekEntry, $lastWeekEntry){
-                if(!$entries->contains($thisWeekEntry)){
-                    $this->fail('This week entries are not shown');
-                }
-                if($entries->contains($lastWeekEntry)){
-                    $this->fail('Found last week entries');
-                }
-                return true;
-            });
+	    $response = $this->actingAs($user)->get(route('entries.index'));
+		$response->assertSee($thisWeekEntry->title);
+		$response->assertSee($lastWeekEntry->title);
 	}
 
 	/** @test **/
@@ -82,18 +72,14 @@ class ViewIndexEntriesTest extends TestCase
 
         $user = factory(User::class)->create();
 
-        $this->actingAs($user)->get(route('entries.index'))
-            ->assertViewHas('entriesDate', function($dates){
-                $this->assertContains('April 11, 2021', $dates);
-                $this->assertContains('April 4, 2021', $dates);
-                $this->assertContains('March 28, 2021', $dates);
-                $this->assertContains('March 21, 2021', $dates);
-
-                $this->assertEquals('April 11, 2021', $dates[0]);
-                $this->assertEquals('March 21, 2021', $dates[3]);
-
-                return true;
-            });
+        $response = $this->actingAs($user)->get(route('entries.index'));
+        $response->assertSee('April 11, 2021');
+        $response->assertSee('April 4, 2021');
+        $response->assertSee('March 28, 2021');
+        $response->assertSee('March 21, 2021');
+		$entry = Entry::all();
+        $this->assertEquals('April 11, 2021', $entry->first()->created_at->format('F j, Y'));
+        $this->assertEquals('March 21, 2021', $entry->last()->created_at->format('F j, Y'));
     }
 
     /** @test **/
@@ -105,11 +91,8 @@ class ViewIndexEntriesTest extends TestCase
 
         $user = factory(User::class)->create();
 
-        $this->actingAs($user)->get(route('entries.index'))
-            ->assertViewHas('entriesDate', function($dates){
-                $this->assertContains('April 11, 2021', $dates);
-                return true;
-            });
+        $this->actingAs($user)->get(route('entries.index'))->assertSee('April 11, 2021');
+               
     }
 
 }
