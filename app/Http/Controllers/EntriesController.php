@@ -25,7 +25,7 @@ class EntriesController extends Controller
     	}
 		return view('entries.index', [
 		    'entries' => $entries,
-            'entriesDate' => $this->getDates()
+            'entriesDate' => $dates
         ]);
 	}
 
@@ -122,7 +122,7 @@ class EntriesController extends Controller
 		$now = now()->endOfWeek()->format($dateFormat);
 
         if(!$oldest){
-            return [$now];
+            return collect($now);
         }
 
         $oldest = $oldest->created_at->endOfWeek();
@@ -139,7 +139,7 @@ class EntriesController extends Controller
 		if($now !== $dates[0]) {
 			array_unshift($dates, $now);
 		}
-        return $dates;
+        return collect($dates);
     }
 
 }
