@@ -139,7 +139,6 @@ class EntriesController extends Controller
 		if($now !== $dates[0]) {
 			array_unshift($dates, $now);
 		}
-
         return $dates;
     }
 
