@@ -22,11 +22,11 @@ class ViewIndexEntriesTest extends TestCase
 		$entry = factory(Entry::class)->create();
 
 		$this->actingAs($user)
-				->getJson(route('entries.index'))
-				->assertStatus(200)
-				->assertSee($entry->title)
-				->assertSee($entry->formatted_date)
-				->assertSee($entry->short_description);
+			->getJson(route('entries.index'))
+			->assertStatus(200)
+			->assertSee($entry->title)
+			->assertSee($entry->formatted_date)
+			->assertSee($entry->short_description);
 	}
 
 	/** @test **/
@@ -37,8 +37,8 @@ class ViewIndexEntriesTest extends TestCase
 		$this->assertCount(0, Entry::all());
 
 		$this->actingAs($user)->get(route('entries.index'));
-//				->assertSee("No entry found")
-//				->assertSee(route('entries.create'));
+		//				->assertSee("No entry found")
+		//				->assertSee(route('entries.create'));
 
 	}
 
@@ -52,13 +52,13 @@ class ViewIndexEntriesTest extends TestCase
 	/** @test **/
 	public function only_entries_for_the_current_week_are_shown()
 	{
-	    Carbon::setTestNow('Friday April 9th, 2021');
-	    $thisWeekEntry = factory(Entry::class)->create();
-	    $lastWeekEntry = factory(Entry::class)->create(['created_at' => now()->subWeek()]);
+		Carbon::setTestNow('Friday April 9th, 2021');
+		$thisWeekEntry = factory(Entry::class)->create();
+		$lastWeekEntry = factory(Entry::class)->create(['created_at' => now()->subWeek()]);
 
-	    $user = factory(User::class)->create();
+		$user = factory(User::class)->create();
 
-	    $response = $this->actingAs($user)->get(route('entries.index'));
+		$response = $this->actingAs($user)->get(route('entries.index'));
 		$response->assertSee($thisWeekEntry->title);
 		$response->assertSee($lastWeekEntry->title);
 	}
@@ -66,33 +66,31 @@ class ViewIndexEntriesTest extends TestCase
 	/** @test **/
 	public function list_entries_of_the_week_from_the_first_week_to_the_last_week_entries()
 	{
-        Carbon::setTestNow('April 11th, 2021');
-        factory(Entry::class)->create();
-        factory(Entry::class)->create(['created_at' => now()->subWeeks(3)]);
+		Carbon::setTestNow('April 11th, 2021');
+		factory(Entry::class)->create();
+		factory(Entry::class)->create(['created_at' => now()->subWeeks(3)]);
 
-        $user = factory(User::class)->create();
+		$user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->get(route('entries.index'));
-        $response->assertSee('April 11, 2021');
-        $response->assertSee('April 4, 2021');
-        $response->assertSee('March 28, 2021');
-        $response->assertSee('March 21, 2021');
+		$response = $this->actingAs($user)->get(route('entries.index'));
+		$response->assertSee('April 11, 2021');
+		$response->assertSee('April 4, 2021');
+		$response->assertSee('March 28, 2021');
+		$response->assertSee('March 21, 2021');
 		$entry = Entry::all();
-        $this->assertEquals('April 11, 2021', $entry->first()->created_at->format('F j, Y'));
-        $this->assertEquals('March 21, 2021', $entry->last()->created_at->format('F j, Y'));
-    }
+		$this->assertEquals('April 11, 2021', $entry->first()->created_at->format('F j, Y'));
+		$this->assertEquals('March 21, 2021', $entry->last()->created_at->format('F j, Y'));
+	}
 
-    /** @test **/
+	/** @test **/
 	public function current_week_end_is_displayed_if_no_entries_are_found()
 	{
-        Carbon::setTestNow('April 11th, 2021');
+		Carbon::setTestNow('April 11th, 2021');
 
-        $this->assertEmpty(Entry::count());
+		$this->assertEmpty(Entry::count());
 
-        $user = factory(User::class)->create();
+		$user = factory(User::class)->create();
 
-        $this->actingAs($user)->get(route('entries.index'))->assertSee('April 11, 2021');
-               
-    }
-
+		$this->actingAs($user)->get(route('entries.index'))->assertSee('April 11, 2021');
+	}
 }
