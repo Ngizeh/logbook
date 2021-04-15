@@ -127,7 +127,7 @@ class EntriesController extends Controller
 
         $oldest = $oldest->created_at->endOfWeek();
         $latest = Entry::latest()->first()->created_at->endOfWeek();
-        $diff = $oldest->diffInWeeks($latest) + 1;
+        $diff = $oldest->diffInWeeks($latest);
 
         $dates = [];
         $currentDate = $latest;
