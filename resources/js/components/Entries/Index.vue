@@ -15,7 +15,7 @@
                             </div>
                         </div>
                     </div>
-                    <entries-table :entries="entries" @weekEntry="entry"></entries-table>
+                    <entries-table :entries="entries"></entries-table>
                 </div>
             </div>
         </div>

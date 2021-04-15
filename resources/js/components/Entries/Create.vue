@@ -74,30 +74,30 @@
 <script>
 export default {
     name: "Create",
-    props : ['categories'],
-    data(){
+    props: ["categories"],
+    data() {
         return {
-            form : {
+            form: {
                 description: "",
                 title: "",
-                category_id : "",
+                category_id: "",
             },
-            errors : ""
-        }
+            errors: "",
+        };
     },
     methods: {
-        addLog(){
-            axios.post(route('entries.store'), this.form)
-                .then(() => {
-                    axios.get(route('entries.index'))
-                }).catch(error => {
-                    this.errors = error.response.data.errors;
-            })
-        }
-    }
-}
+        addLog() {
+            axios
+                .post(route("entries.store"), this.form)
+                .then(()=> {
+                    this.form = {}
+                    window.location.href = route('entries.index')
+                })
+                .catch(error=>  this.errors = error.response.data.errors);
+        },
+    },
+};
 </script>
 
 <style scoped>
-
 </style>
