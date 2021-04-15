@@ -6,7 +6,6 @@ use App\Category;
 use App\Entry;
 use App\Http\Requests\EntryRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 class EntriesController extends Controller
@@ -120,8 +119,10 @@ class EntriesController extends Controller
 
         $dateFormat = 'F j, Y';
 
+		$now = now()->endOfWeek()->format($dateFormat);
+
         if(!$oldest){
-            return [now()->endOfWeek()->format($dateFormat)];
+            return [$now];
         }
 
         $oldest = $oldest->created_at->endOfWeek();
@@ -134,6 +135,10 @@ class EntriesController extends Controller
             $dates[] = $currentDate->format($dateFormat);
             $currentDate = $currentDate->copy()->subWeek();
         }
+
+		if($now !== $dates[0]) {
+			array_unshift($dates, $now);
+		}
 
         return $dates;
     }
