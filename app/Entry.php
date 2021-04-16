@@ -37,6 +37,16 @@ class Entry extends Model
         ]);
     }
 
+    public function scopeForDay($query, $date)
+    {
+        $date = Carbon::parse($date);
+
+        $query->whereBetween('created_at', [
+            $date->copy()->startOfDay(),
+            $date->copy()->endOfDay()
+        ]);
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
