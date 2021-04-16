@@ -24,5 +24,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware('auth')->group(function(){
     Route::resource('/entries', 'EntriesController');
     Route::get('/entries/weekending/{date}', 'EntryDateEndingController@weekending')->name('entries.weekending');
+    Route::get('/entries/day/{date}', 'EntryDateEndingController@dayEnding')->name('entries.dayEnding');
 });
 

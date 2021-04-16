@@ -14,4 +14,11 @@ class EntryDateEndingController extends Controller
 
         return response()->json([$entries], 200);
     }
+
+    public function dayEnding(string $date)
+    {
+        $entries = Entry::forDay($date)->get();
+
+        return response()->json([$entries], 200);
+    }
 }

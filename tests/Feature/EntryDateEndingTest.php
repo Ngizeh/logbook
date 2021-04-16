@@ -25,4 +25,20 @@ class EntryDateEndingTest extends TestCase
 		$response->assertJsonFragment(['created_at' => $thisWeekEntry->created_at]);
 		$response->assertJsonMissingExact($lastWeekEntry->toArray());
 	}
+
+	/** @test **/
+	public function can_get_entries_for_a_given_day()
+	{
+        $this->withoutExceptionHandling();
+
+        Carbon::setTestNow('April 18, 2021');
+        $thisWeekEntry = factory(Entry::class)->create();
+        $lastWeekEntry = factory(Entry::class)->create(['created_at' => now()->subDay()]);
+
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->getJson(route('entries.dayEnding', 'April 18, 2021'));
+        $response->assertJsonFragment(['created_at' => $thisWeekEntry->created_at]);
+        $response->assertJsonMissingExact($lastWeekEntry->toArray());
+	}
 }
