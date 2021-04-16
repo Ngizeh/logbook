@@ -99,6 +99,17 @@ export default {
                 })
                 .catch((error) => error.response.data.errors);
         },
+        loadData(url, func){
+            this.$root.$on(func, (date) => {
+                axios.get(route(url, date))
+                    .then((response) => {
+                        this.loading = true;
+                        this.data = response.data[0];
+                        this.loading = false;
+                    })
+                    .catch((error) => error.response.data.errors);
+            })
+        }
     },
     computed: {
         toggle() {
@@ -106,16 +117,8 @@ export default {
         },
     },
     mounted() {
-        this.$root.$on("weekEntry", (date) => {
-            axios
-                .get(route("entries.weekending", date))
-                .then((response) => {
-                    this.loading = true;
-                    this.data = response.data[0];
-                    this.loading = false;
-                })
-                .catch((error) => error.response.data.errors);
-        });
+        this.loadData("entries.weekending", "weekEntry");
+        this.loadData("entries.dayEnding", "dayEntry");
     },
 };
 </script>

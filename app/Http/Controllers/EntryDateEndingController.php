@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entry;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -10,15 +11,15 @@ class EntryDateEndingController extends Controller
 {
     public function weekending(string $date): JsonResponse
     {
-        $entries = Entry::forWeekEnding($date)->get();
+        $weekly = Entry::forWeekEnding($date)->get();
 
-        return response()->json([$entries], 200);
+        return response()->json([$weekly], 200);
     }
 
-    public function dayEnding(string $date)
+    public function dayEnding(string $date): JsonResponse
     {
-        $entries = Entry::forDay($date)->get();
+        $daily = Entry::forDay($date)->get();
 
-        return response()->json([$entries], 200);
+        return response()->json([$daily], 200);
     }
 }

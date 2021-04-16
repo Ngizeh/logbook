@@ -15,8 +15,8 @@
                                 id="title"
                             />
                             <span v-if="errors" class="text-danger">{{
-                                errors.title[0]
-                            }}</span>
+                                    errors.title[0]
+                                }}</span>
                         </div>
                         <div class="form-group">
                             <label for="category_id">Type:</label>
@@ -38,8 +38,8 @@
                                 </option>
                             </select>
                             <span v-if="errors" class="text-danger">{{
-                                errors.category_id[0]
-                            }}</span>
+                                    errors.category_id[0]
+                                }}</span>
                         </div>
                         <div class="form-group">
                             <label for="description">Description:</label>
@@ -51,8 +51,8 @@
                                 v-model="form.description"
                             ></textarea>
                             <span v-if="errors" class="text-danger">{{
-                                errors.description[0]
-                            }}</span>
+                                    errors.description[0]
+                                }}</span>
                         </div>
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-primary">
@@ -61,7 +61,7 @@
                             <a
                                 :href="route('entries.index')"
                                 class="btn btn-link"
-                                >Cancel</a
+                            >Cancel</a
                             >
                         </div>
                     </form>

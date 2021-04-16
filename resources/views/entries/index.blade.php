@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <index :entries="{{ $entries }}" :dates="{{ $entriesDate }}"></index>
+    <index :weekly-entries="{{ $weeklyEntries }}" :dates="{{ $entriesDate }}"></index>
 @endsection

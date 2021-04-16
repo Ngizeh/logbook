@@ -5,121 +5,123 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Entry;
 use App\Http\Requests\EntryRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 class EntriesController extends Controller
 {
-	/**
-	 * List of the resource to display
-	 *
-	 * @return View
-	 */
-	public function index()
+    /**
+     * List of the resource to display
+     *
+     * @return array|View
+     */
+    public function index()
     {
-    	$entries = Entry::forThisWeek()->latest()->get();
-    	$dates = $this->getDates();
+        $weekly = Entry::forThisWeek()->latest()->get();
+        $dates = $this->getDates();
 
-    	if(request()->wantsJson()){
-    		return [$entries, $dates];
-    	}
-		return view('entries.index', [
-		    'entries' => $entries,
-            'entriesDate' => $dates
+        if(request()->wantsJson()){
+            return [$weekly, $dates];
+        }
+        return view('entries.index', [
+            'weeklyEntries' => $weekly,
+            'entriesDate' => $dates,
         ]);
-	}
+    }
 
-   /**
-	* Show a form to create a resource
-	*
-	* @return  View
-	*/
-	public function create(): View
+    /**
+     * Show a form to create a resource
+     *
+     * @return  View
+     */
+    public function create(): View
     {
-		$categories =  Category::all();
+        $categories =  Category::all();
 
-		return view('entries.create', compact('categories'));
-	}
+        return view('entries.create', compact('categories'));
+    }
 
-	/**
-	 * Create a resource from a form request
-	 *
-	 * @param   EntryRequest  $request  Form Request Validatation
-	 *
-	 * @return  RedirectResponse Redirect Response
-	 */
-	public function store(EntryRequest $request)
-	{
-		$data = $request->all();
+    /**
+     * Create a resource from a form request
+     *
+     * @param   EntryRequest  $request  Form Request Validation
+     *
+     * @return  JsonResponse Response
+     */
+    public function store(EntryRequest $request): JsonResponse
+    {
+        $data = $request->all();
 
-		Entry::create($data);
+        Entry::create($data);
 
-		return response()->json([], 201);
-	}
+        return response()->json([], 201);
+    }
 
-	/**
-	 * Edit a specified resource from the Route model binding
-	 *
-	 * @param   Entry  $entry
-	 *
-	 * @return View
-	 */
-	public function edit(Entry $entry): View
-	{
-		$categories = Category::all();
+    /**
+     * Edit a specified resource from the Route model binding
+     *
+     * @param   Entry  $entry
+     *
+     * @return View
+     */
+    public function edit(Entry $entry): View
+    {
+        $categories = Category::all();
 
-		return view('entries.edit', compact('entry', 'categories'));
-	}
+        return view('entries.edit', compact('entry', 'categories'));
+    }
 
-	/**
-	 * Update a specific resource
-	 *
-	 * @param   EntryRequest  $request
-	 * @param   Entry         $entry
-	 * @return  RedirectResponse
-	 */
-	public function update(EntryRequest $request, Entry $entry)
-	{
-		$entry->update($request->only(['title', 'description', 'category_id']));
+    /**
+     * Update a specific resource
+     *
+     * @param   EntryRequest  $request
+     * @param   Entry         $entry
+     * @return  JsonResponse
+     */
+    public function update(EntryRequest $request, Entry $entry)
+    {
+        $entry->update($request->only(['title', 'description', 'category_id']));
 
-		return response()->json([], 201);
-	}
+        return response()->json([], 201);
+    }
 
-	/**
-	 * Show a specified resource
-	 *
-	 * @param   Entry  $entry
-	 *
-	 * @return View
-	 */
-	public function show(Entry $entry) : View
-	{
-		return view('entries.show', compact('entry'));
-	}
+    /**
+     * Show a specified resource
+     *
+     * @param   Entry  $entry
+     *
+     * @return View
+     */
+    public function show(Entry $entry) : View
+    {
+        return view('entries.show', compact('entry'));
+    }
 
     /**
      * @param Entry $entry
-     * @return Response
+     * @return JsonResponse
      * @throws \Exception
      */
-	public function destroy(Entry $entry)
+    public function destroy(Entry $entry): JsonResponse
     {
-		$entry->delete();
+        $entry->delete();
 
-		return response()->json([$entry], 202);
-	}
+        return response()->json([$entry], 202);
+    }
 
     /**
      * Get Dates for the weeks entries
-     * @return array
+     * @return Collection
      */
-    private function getDates()
+    private function getDates(): Collection
     {
         $oldest = Entry::oldest()->first();
 
         $dateFormat = 'F j, Y';
 
-		$now = now()->endOfWeek()->format($dateFormat);
+        $now = now()->endOfWeek()->format($dateFormat);
 
         if(!$oldest){
             return collect($now);
@@ -136,9 +138,9 @@ class EntriesController extends Controller
             $currentDate = $currentDate->copy()->subWeek();
         }
 
-		if($now !== $dates[0]) {
-			array_unshift($dates, $now);
-		}
+        if($now !== $dates[0]) {
+            array_unshift($dates, $now);
+        }
         return collect($dates);
     }
 
