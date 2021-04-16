@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Entry;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class EntryEndingController extends Controller
+class EntryDateEndingController extends Controller
 {
-    public function weekending(string $date)
+    public function weekending(string $date): JsonResponse
     {
         $entries = Entry::forWeekEnding($date)->get();
 
-        return response()->json([$entries], 200);;
+        return response()->json([$entries], 200);
     }
 }

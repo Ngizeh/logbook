@@ -58,28 +58,28 @@ class ViewIndexEntriesTest extends TestCase
 
 		$user = factory(User::class)->create();
 
-		$response = $this->actingAs($user)->get(route('entries.index'));
-		$response->assertSee($thisWeekEntry->title);
-		$response->assertSee($lastWeekEntry->title);
+		$response = $this->actingAs($user)->getJson(route('entries.index'));
+        $response->assertJsonFragment(['created_at' => $thisWeekEntry->created_at]);
+        $response->assertJsonMissingExact($lastWeekEntry->toArray());
 	}
 
 	/** @test **/
 	public function list_entries_of_the_week_from_the_first_week_to_the_last_week_entries_and_shows_the_current_week_if_not_listed()
 	{
-		Carbon::setTestNow('April 15th, 2021');
+		Carbon::setTestNow('April 18th, 2021');
 		factory(Entry::class)->create(['created_at' => now()->subWeeks(1)]);
 		factory(Entry::class)->create(['created_at' => now()->subWeeks(3)]);
 
 		$user = factory(User::class)->create();
 
 		$response = $this->actingAs($user)->get(route('entries.index'));
-		$response->assertSee('April 8, 2021');
-		$response->assertSee('April 1, 2021');
-		$response->assertSee('March 25, 2021');
-		$response->assertSee('April 15, 2021');
+		$response->assertSee('April 11, 2021');
+		$response->assertSee('April 4, 2021');
+		$response->assertSee('March 28, 2021');
+		$response->assertSee('April 18, 2021');
 		$entries = Entry::all();
-		$response->assertSee('April 15, 2021');
-		$this->assertEquals('March 25, 2021', $entries->last()->created_at->format('F j, Y'));
+		$response->assertSee('April 18, 2021');
+		$this->assertEquals('March 28, 2021', $entries->last()->created_at->format('F j, Y'));
 	}
 
 	/** @test **/
