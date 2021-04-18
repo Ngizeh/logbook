@@ -8,6 +8,7 @@ use App\Http\Requests\EntryRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -45,15 +46,15 @@ class EntriesController extends Controller
      *
      * @param   EntryRequest  $request  Form Request Validation
      *
-     * @return  JsonResponse Response
+     * @return  RedirectResponse Response
      */
-    public function store(EntryRequest $request): JsonResponse
+    public function store(EntryRequest $request): RedirectResponse
     {
         $data = $request->all();
 
         Entry::create($data);
 
-        return response()->json([], 201);
+        return Redirect::route('entries.index');
     }
 
     /**
@@ -75,13 +76,13 @@ class EntriesController extends Controller
      *
      * @param   EntryRequest  $request
      * @param   Entry         $entry
-     * @return  JsonResponse
+     * @return  RedirectResponse
      */
-    public function update(EntryRequest $request, Entry $entry): JsonResponse
+    public function update(EntryRequest $request, Entry $entry): RedirectResponse
     {
         $entry->update($request->only(['title', 'description', 'category_id']));
 
-        return response()->json([], 201);
+        return Redirect::route('entries.index');
     }
 
     /**
