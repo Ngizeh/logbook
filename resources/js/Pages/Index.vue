@@ -1,16 +1,16 @@
 <template>
-    <div class="container">
+    <div class="container mx-auto">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="text-right mb-2">
-                    <a href="/entries/create" class="btn btn-success">Add</a>
+                    <inertia-link :href="route('entries.create')" class="btn btn-success">Add</inertia-link>
                 </div>
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-6">
                                 <select class="form-control week" @change="weeklyEntry($event)">
-                                    <option v-for="(date, index) in dates" :key="index" :value="date">Week Ending {{ date }}</option>
+                                    <option v-for="(date, index) in entriesDate" :key="index" :value="date">Week Ending {{ date }}</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
@@ -31,6 +31,7 @@
 <script>
 import EntriesTable from "./EntriesTable";
 import moment from 'moment';
+import emit from "mitt";
 export default {
     components: {EntriesTable},
     props : ['weeklyEntries', 'entriesDate'],
@@ -58,13 +59,13 @@ export default {
             this.day(e.target.value)
         },
         week(date){
-            this.$root.$emit('weekEntry', date)
+            emitter.emit('weekEntry', date)
         },
         day(date){
             let defaultDate = document.getElementsByClassName('week')[0].value;
             let weekDate = this.weekday || defaultDate ;
-            let daySelected = moment(weekDate).weekday(date).format('MMMM D, YYYY');
-            this.$root.$emit('dayEntry', daySelected)
+            let daySelected = moment(weekDate, "MMMM D, YYYY").weekday(date).format('MMMM D, YYYY');
+            emitter.emit('dayEntry', daySelected)
         }
     },
 }

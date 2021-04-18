@@ -1,9 +1,14 @@
 <template>
     <breeze-authenticated-layout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Dashboard
-            </h2>
+            <div class="flex">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    Dashboard
+                </h2>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight pl-4">
+                    <inertia-link :href="route('entries.index')">Entries</inertia-link>
+                </h2>
+            </div>
         </template>
 
         <div class="py-12">

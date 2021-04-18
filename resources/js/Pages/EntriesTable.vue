@@ -68,7 +68,7 @@
                     <td colspan="4" class="text-center">
                         <span>
                             No entry found
-                            <a href="/entries/create">Add an entry</a>
+                            <inertia-link :href="route('entries.create')">Add an entry</inertia-link>
                         </span>
                     </td>
                 </tr>
@@ -100,7 +100,7 @@ export default {
                 .catch((error) => error.response.data.errors);
         },
         loadData(url, func){
-            this.$root.$on(func, (date) => {
+            emitter.on(func, (date) => {
                 axios.get(route(url, date))
                     .then((response) => {
                         this.loading = true;

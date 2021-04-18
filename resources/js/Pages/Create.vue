@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container mx-auto">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -15,8 +15,8 @@
                                 id="title"
                             />
                             <span v-if="errors" class="text-danger">{{
-                                errors.title[0]
-                            }}</span>
+                                    errors.title[0]
+                                }}</span>
                         </div>
                         <div class="form-group">
                             <label for="category_id">Type:</label>
@@ -38,8 +38,8 @@
                                 </option>
                             </select>
                             <span v-if="errors" class="text-danger">{{
-                                errors.category_id[0]
-                            }}</span>
+                                    errors.category_id[0]
+                                }}</span>
                         </div>
                         <div class="form-group">
                             <label for="description">Description:</label>
@@ -51,17 +51,17 @@
                                 v-model="form.description"
                             ></textarea>
                             <span v-if="errors" class="text-danger">{{
-                                errors.description[0]
-                            }}</span>
+                                    errors.description[0]
+                                }}</span>
                         </div>
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-primary">
                                 Submit
                             </button>
-                            <a
+                            <inertia-link
                                 :href="route('entries.index')"
                                 class="btn btn-link"
-                            >Cancel</a
+                            >Cancel</inertia-link
                             >
                         </div>
                     </form>
@@ -87,11 +87,9 @@ export default {
     },
     methods: {
         addLog() {
-            axios
-                .post(route("entries.store"), this.form)
+            this.$inertia.post(route("entries.store"), this.form)
                 .then(()=> {
                     this.form = {}
-                    window.location.href = route('entries.index')
                 })
                 .catch(error=>  this.errors = error.response.data.errors);
         },
