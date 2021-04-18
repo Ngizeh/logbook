@@ -1,13 +1,14 @@
 window._ = require('lodash');
-
+import mitt from 'mitt'
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
+ * to our Laravel back-en   d. This library automatically handles sending the
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
 window.axios = require('axios');
+window.emitter =  mitt();
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
