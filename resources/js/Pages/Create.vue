@@ -1,7 +1,7 @@
 <template>
     <div class="container mx-auto">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="w-2/3">
                 <div class="card">
                     <h4 class="text-center pt-4">Add an Entry</h4>
                     <form class="form-group px-4" @submit.prevent="addLog">

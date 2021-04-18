@@ -1,23 +1,23 @@
 <template>
     <div>
         <p v-show="loading">Loading...</p>
-        <table class="table striped">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Category</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Action</th>
+        <table class="w-full bg-white items-left">
+            <thead class="border-2">
+                <tr class="text-left">
+                    <th class="py-4 pl-3">Date</th>
+                    <th class="py-4">Category</th>
+                    <th class="py-4">Title</th>
+                    <th class="py-4">Description</th>
+                    <th class="py-4">Action</th>
                 </tr>
             </thead>
             <tbody v-if="data.length > 0">
-                <tr v-for="entry in data" :key="entry.id">
-                    <td>{{ entry.formattedDate }}</td>
-                    <td>{{ entry.category.name }}</td>
-                    <td>{{ entry.title }}</td>
-                    <td>{{ entry.shortDescription }}</td>
-                    <td>
+                <tr v-for="entry in data" :key="entry.id" class="border-2">
+                    <td class="py-4 pl-3">{{ entry.formattedDate }}</td>
+                    <td class="py-4">{{ entry.category.name }}</td>
+                    <td class="py-4">{{ entry.title }}</td>
+                    <td class="py-4">{{ entry.shortDescription }}</td>
+                    <td class="py-4">
                         <div class="dropdown">
                             <span
                                 role="button"
