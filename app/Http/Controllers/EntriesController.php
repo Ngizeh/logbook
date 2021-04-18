@@ -9,38 +9,35 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class EntriesController extends Controller
 {
     /**
      * List of the resource to display
      *
-     * @return array|View
+     * @return \Inertia\Response
      */
-    public function index()
+    public function index(): Response
     {
-        $weekly = Entry::forThisWeek()->latest()->get();
-        $dates = $this->getDates();
+        $weeklyEntries = Entry::forThisWeek()->latest()->get();
+        $entriesDate = $this->getDates();
 
-        if(request()->wantsJson()){
-            return [$weekly, $dates];
-        }
-        return view('entries.index', [
-            'weeklyEntries' => $weekly,
-            'entriesDate' => $dates,
-        ]);
+        return Inertia::render('Index', compact('weeklyEntries', 'entriesDate'));
     }
 
     /**
      * Show a form to create a resource
      *
-     * @return  View
+     * @return  Response
      */
-    public function create(): View
+    public function create(): Response
     {
         $categories =  Category::all();
 
-        return view('entries.create', compact('categories'));
+        return Inertia::render('Create', compact('categories'));
+
     }
 
     /**
@@ -64,13 +61,13 @@ class EntriesController extends Controller
      *
      * @param   Entry  $entry
      *
-     * @return View
+     * @return Response
      */
-    public function edit(Entry $entry): View
+    public function edit(Entry $entry): Response
     {
         $categories = Category::all();
 
-        return view('entries.edit', compact('entry', 'categories'));
+        return Inertia::render('Edit', compact('entry', 'categories'));
     }
 
     /**
@@ -80,7 +77,7 @@ class EntriesController extends Controller
      * @param   Entry         $entry
      * @return  JsonResponse
      */
-    public function update(EntryRequest $request, Entry $entry)
+    public function update(EntryRequest $request, Entry $entry): JsonResponse
     {
         $entry->update($request->only(['title', 'description', 'category_id']));
 
@@ -92,11 +89,11 @@ class EntriesController extends Controller
      *
      * @param   Entry  $entry
      *
-     * @return View
+     * @return Response
      */
-    public function show(Entry $entry) : View
+    public function show(Entry $entry) : Response
     {
-        return view('entries.show', compact('entry'));
+        return Inertia::render('entries.show', compact('entry'));
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -27,5 +28,13 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Auth::routes();
+
+Route::middleware('auth')->group(function(){
+    Route::resource('/entries', 'EntriesController');
+    Route::get('/entries/weekending/{date}', 'EntryDateEndingController@weekending')->name('entries.weekending');
+    Route::get('/entries/day/{date}', 'EntryDateEndingController@dayEnding')->name('entries.dayEnding');
+});
 
 require __DIR__.'/auth.php';

@@ -33,7 +33,7 @@ import EntriesTable from "./EntriesTable";
 import moment from 'moment';
 export default {
     components: {EntriesTable},
-    props : ['weeklyEntries', 'dates'],
+    props : ['weeklyEntries', 'entriesDate'],
     data(){
         return {
             days : [
