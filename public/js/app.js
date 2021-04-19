@@ -18409,51 +18409,68 @@ __webpack_require__.r(__webpack_exports__);
     EntriesTable: _Pages_EntriesTable__WEBPACK_IMPORTED_MODULE_1__.default,
     BreezeAuthenticatedLayout: _Layouts_Authenticated__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  props: ['weeklyEntries', 'entriesDate'],
+  props: ["weeklyEntries", "entriesDate"],
   data: function data() {
     return {
       days: [{
-        "val": -6,
-        "d": "Monday"
+        val: -6,
+        d: "Monday"
       }, {
-        "val": -5,
-        "d": "Tuesday"
+        val: -5,
+        d: "Tuesday"
       }, {
-        "val": -4,
-        "d": "Wednesday"
+        val: -4,
+        d: "Wednesday"
       }, {
-        "val": -3,
-        "d": "Thursday"
+        val: -3,
+        d: "Thursday"
       }, {
-        "val": -2,
-        "d": "Friday"
+        val: -2,
+        d: "Friday"
       }, {
-        "val": -1,
-        "d": "Saturday"
+        val: -1,
+        d: "Saturday"
       }, {
-        "val": 0,
-        "d": "Sunday"
+        val: 0,
+        d: "Sunday"
       }],
-      weekday: ''
+      weekday: ""
     };
   },
   methods: {
     weeklyEntry: function weeklyEntry(e) {
-      document.getElementsByClassName('selector')[0].selectedIndex = 0;
+      this.selector.selectedIndex = 0;
       this.weekday = e.target.value;
       this.week(this.weekday);
     },
     dailyEntry: function dailyEntry(e) {
+      this.initialValue;
       this.day(e.target.value);
     },
     week: function week(date) {
-      emitter.emit('weekEntry', date);
+      emitter.emit("weekEntry", date);
     },
     day: function day(date) {
-      var defaultDate = document.getElementsByClassName('week')[0].value;
+      var defaultDate = this.weekSelector.value;
       var weekDate = this.weekday || defaultDate;
-      var daySelected = moment__WEBPACK_IMPORTED_MODULE_2___default()(weekDate, "MMMM D, YYYY").weekday(date).format('MMMM D, YYYY');
-      emitter.emit('dayEntry', daySelected);
+      var daySelected = moment__WEBPACK_IMPORTED_MODULE_2___default()(weekDate, "MMMM D, YYYY").weekday(date).format("MMMM D, YYYY");
+      emitter.emit("dayEntry", daySelected);
+    }
+  },
+  computed: {
+    selector: function selector() {
+      return document.getElementsByClassName("selector")[0];
+    },
+    weekSelector: function weekSelector() {
+      return document.getElementsByClassName("week")[0];
+    },
+    initialValue: function initialValue() {
+      var initial = this.weekSelector.options;
+      var current = initial[initial.selectedIndex].value;
+
+      if (this.selector.value === "full_week") {
+        return this.week(current);
+      }
     }
   }
 });
@@ -20383,7 +20400,7 @@ var _hoisted_6 = {
 var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
   selected: "",
   value: "full_week"
-}, "Full Week Entry", -1
+}, " Full Week Entry ", -1
 /* HOISTED */
 );
 
@@ -20417,7 +20434,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("option", {
           key: index,
           value: date
-        }, "Week Ending " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(date), 9
+        }, " Week Ending " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(date), 9
         /* TEXT, PROPS */
         , ["value"]);
       }), 128
