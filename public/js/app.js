@@ -18444,7 +18444,13 @@ __webpack_require__.r(__webpack_exports__);
       this.week(this.weekday);
     },
     dailyEntry: function dailyEntry(e) {
-      this.initialValue;
+      var initial = this.weekSelector.options;
+      var current = initial[initial.selectedIndex].value;
+
+      if (this.selector.value === "full_week") {
+        return this.week(current);
+      }
+
       this.day(e.target.value);
     },
     week: function week(date) {
@@ -18463,14 +18469,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     weekSelector: function weekSelector() {
       return document.getElementsByClassName("week")[0];
-    },
-    initialValue: function initialValue() {
-      var initial = this.weekSelector.options;
-      var current = initial[initial.selectedIndex].value;
-
-      if (this.selector.value === "full_week") {
-        return this.week(current);
-      }
     }
   }
 });

@@ -78,7 +78,11 @@ export default {
             this.week(this.weekday);
         },
         dailyEntry(e) {
-            this.initialValue
+            let initial = this.weekSelector.options;
+            let current = initial[initial.selectedIndex].value;
+            if (this.selector.value === "full_week") {
+                return this.week(current);
+            }
             this.day(e.target.value);
         },
         week(date) {
@@ -99,13 +103,6 @@ export default {
         },
         weekSelector() {
             return document.getElementsByClassName("week")[0];
-        },
-        initialValue() {
-            let initial = this.weekSelector.options;
-            let current = initial[initial.selectedIndex].value;
-            if (this.selector.value === "full_week") {
-                return this.week(current);
-            }
         },
     },
 };
