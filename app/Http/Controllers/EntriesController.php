@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\Entry;
+use App\Models\Category;
+use App\Models\Entry;
 use App\Http\Requests\EntryRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -18,7 +18,7 @@ class EntriesController extends Controller
     /**
      * List of the resource to display
      *
-     * @return \Inertia\Response
+     * @return Response
      */
     public function index(): Response
     {
@@ -94,7 +94,7 @@ class EntriesController extends Controller
      */
     public function show(Entry $entry) : Response
     {
-        return Inertia::render('entries.show', compact('entry'));
+        return Inertia::render('Show', compact('entry'));
     }
 
     /**

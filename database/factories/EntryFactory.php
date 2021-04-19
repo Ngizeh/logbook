@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 
-use App\Category;
-use App\Entry;
+use App\Models\Category;
+use App\Models\Entry;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
