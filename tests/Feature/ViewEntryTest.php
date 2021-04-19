@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Entry;
-use App\User;
+use App\Models\Entry;
+use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -16,13 +16,12 @@ class ViewEntryTest extends TestCase
 	{
 		$this->withoutExceptionHandling();
 
-		$user = factory(User::class)->create();
-		$entry = factory(Entry::class)->create();
+		$user = User::factory()->create();
+		$entry = Entry::factory()->create();
 
 		$this->actingAs($user)
 				->get(route('entries.show', $entry))
 				->assertStatus(200)
-				->assertViewHas('entry', $entry)
 				->assertSee($entry->title)
 				->assertSee($entry->type)
 				->assertSee($entry->short_description)
@@ -32,7 +31,7 @@ class ViewEntryTest extends TestCase
 	/** @test **/
 	public function guest_can_not_view_an_entry()
 	{
-		$entry = factory(Entry::class)->create();
+		$entry = Entry::factory()->create();
 		$this->get(route('entries.show', $entry));
         $this->assertGuest();
 	}

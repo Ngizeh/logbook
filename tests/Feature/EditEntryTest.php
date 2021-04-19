@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Category;
-use App\Entry;
-use App\User;
+use App\Models\Category;
+use App\Models\Entry;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,16 +12,16 @@ class EditEntryTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $entry;
-    private $category;
+    private mixed $entry;
+    private mixed $category;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->category = factory(Category::class)->create();
+        $this->category = Category::factory()->create();
 
-        $this->entry = factory(Entry::class)->create($this->validData());
+        $this->entry = Entry::factory()->create($this->validData());
     }
 
     private function validData($parameters = []): array
@@ -37,15 +37,14 @@ class EditEntryTest extends TestCase
     public function authenticated_users_can_edit_an_entry()
     {
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->actingAs($user)->get(route('entries.edit', $this->entry))
             ->assertSee($this->category->name)
-            ->assertViewIs('entries.edit')
             ->assertOk();
 
         $this->actingAs($user)->patch(route('entries.update', $this->entry), $this->validData())
-            ->assertStatus(201);
+            ->assertStatus(302);
 
         $this->assertEquals('New Title', $this->entry->title);
         $this->assertEquals('New Description', $this->entry->description);
@@ -62,7 +61,7 @@ class EditEntryTest extends TestCase
     /** @test **/
     public function title_is_required_edit_an_entry()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->actingAs($user)
             ->patch(route('entries.update', $this->entry), $this->validData(['title' => null]))
@@ -75,7 +74,7 @@ class EditEntryTest extends TestCase
     public function description_is_required_create_an_entry()
     {
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->actingAs($user)
             ->patch(route('entries.update', $this->entry), $this->validData(['description' => null]))
@@ -87,7 +86,7 @@ class EditEntryTest extends TestCase
     /** @test **/
     public function category_id_is_required_create_an_entry()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->actingAs($user)
             ->patch(route('entries.update', $this->entry), $this->validData(['category_id' => null]))

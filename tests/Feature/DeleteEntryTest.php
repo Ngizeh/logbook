@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Entry;
-use App\User;
+use App\Models\Entry;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,8 +14,8 @@ class DeleteEntryTest extends TestCase
 	/** @test **/
 	public function can_delete_an_entry()
 	{
-		$user = factory(User::class)->create();
-		$entry = factory(Entry::class)->create();
+		$user = User::factory()->create();
+		$entry = Entry::factory()->create();
 
 		$this->actingAs($user)->delete(route('entries.destroy', $entry))->assertStatus(202);
 
@@ -25,7 +25,7 @@ class DeleteEntryTest extends TestCase
 	/** @test **/
 	public function guests_can_not_delete_an_entry()
 	{
-		$entry = factory(Entry::class)->create();
+		$entry = Entry::factory()->create();
 
 		$this->delete(route('entries.destroy', $entry))->assertRedirect(route('login'));
 

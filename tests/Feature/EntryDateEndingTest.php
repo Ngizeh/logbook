@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Entry;
-use App\User;
+use App\Models\Entry;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -16,10 +16,10 @@ class EntryDateEndingTest extends TestCase
 	public function can_get_entries_for_week_ending_in_a_given_week()
 	{
 		Carbon::setTestNow('April 18, 2021');
-		$thisWeekEntry = factory(Entry::class)->create();
-		$lastWeekEntry = factory(Entry::class)->create(['created_at' => now()->subWeek()]);
+		$thisWeekEntry = Entry::factory()->create();
+		$lastWeekEntry = Entry::factory()->create(['created_at' => now()->subWeek()]);
 
-		$user = factory(User::class)->create();
+		$user = User::factory()->create();
 
 		$response = $this->actingAs($user)->getJson(route('entries.weekending', 'April 18, 2021'));
 		$response->assertJsonFragment(['created_at' => $thisWeekEntry->created_at]);
@@ -32,10 +32,10 @@ class EntryDateEndingTest extends TestCase
         $this->withoutExceptionHandling();
 
         Carbon::setTestNow('April 18, 2021');
-        $thisWeekEntry = factory(Entry::class)->create();
-        $lastWeekEntry = factory(Entry::class)->create(['created_at' => now()->subDay()]);
+        $thisWeekEntry = Entry::factory()->create();
+        $lastWeekEntry = Entry::factory()->create(['created_at' => now()->subDay()]);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $response = $this->actingAs($user)->getJson(route('entries.dayEnding', 'April 18, 2021'));
         $response->assertJsonFragment(['created_at' => $thisWeekEntry->created_at]);

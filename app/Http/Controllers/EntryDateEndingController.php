@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Entry;
-use Carbon\Carbon;
+use App\Models\Entry;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 

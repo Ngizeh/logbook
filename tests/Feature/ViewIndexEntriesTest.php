@@ -2,11 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Entry;
-use App\User;
+use App\Models\User;
+use App\Models\Entry;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ViewIndexEntriesTest extends TestCase
@@ -18,8 +17,8 @@ class ViewIndexEntriesTest extends TestCase
 	{
 		$this->withoutExceptionHandling();
 
-		$user = factory(User::class)->create();
-		$entry = factory(Entry::class)->create();
+		$user = User::factory()->create();
+		$entry = Entry::factory()->create();
 
 		$this->actingAs($user)
 			->getJson(route('entries.index'))
@@ -33,7 +32,7 @@ class ViewIndexEntriesTest extends TestCase
 	public function user_is_prompted_to_add_an_entry_if_empty()
 	{
 
-		$user = factory(User::class)->create();
+		$user = User::factory()->create();
 		$this->assertCount(0, Entry::all());
 
 		$this->actingAs($user)->get(route('entries.index'));
@@ -53,24 +52,24 @@ class ViewIndexEntriesTest extends TestCase
 	public function only_entries_for_the_current_week_are_shown()
 	{
 		Carbon::setTestNow('Friday April 9th, 2021');
-		$thisWeekEntry = factory(Entry::class)->create();
-		$lastWeekEntry = factory(Entry::class)->create(['created_at' => now()->subWeek()]);
+		$thisWeekEntries = Entry::factory()->create();
+		$lastWeekEntries = Entry::factory()->create(['created_at' => now()->subWeek()]);
 
-		$user = factory(User::class)->create();
+		$user = User::factory()->create();
 
-		$response = $this->actingAs($user)->getJson(route('entries.index'));
-        $response->assertJsonFragment(['created_at' => $thisWeekEntry->created_at]);
-        $response->assertJsonMissingExact($lastWeekEntry->toArray());
+		$response = $this->actingAs($user)->get(route('entries.index'));
+//		$response->assertSee('April 9, 2021');
+        $response->assertDontSee($lastWeekEntries->created_at->format('F j, Y'));
 	}
 
 	/** @test **/
 	public function list_entries_of_the_week_from_the_first_week_to_the_last_week_entries_and_shows_the_current_week_if_not_listed()
 	{
 		Carbon::setTestNow('April 18th, 2021');
-		factory(Entry::class)->create(['created_at' => now()->subWeeks(1)]);
-		factory(Entry::class)->create(['created_at' => now()->subWeeks(3)]);
+		Entry::factory()->create(['created_at' => now()->subWeeks(1)]);
+		Entry::factory()->create(['created_at' => now()->subWeeks(3)]);
 
-		$user = factory(User::class)->create();
+		$user = User::factory()->create();
 
 		$response = $this->actingAs($user)->get(route('entries.index'));
 		$response->assertSee('April 11, 2021');
@@ -89,7 +88,7 @@ class ViewIndexEntriesTest extends TestCase
 
 		$this->assertEmpty(Entry::count());
 
-		$user = factory(User::class)->create();
+		$user = User::factory()->create();
 
 		$this->actingAs($user)->get(route('entries.index'))->assertSee('April 11, 2021');
 	}
