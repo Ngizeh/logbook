@@ -7,13 +7,14 @@
             @input="$emit('update:category_id', $event.target.value)"
             ref="select"
         >
-            <option selected disabled :value="null">
+            <option selected disabled :value="null"> 
                 Choose your category
             </option>
             <option
                 v-for="(category, index) in categories"
                 :key="index"
                 :value="category.id"
+                :selected="selectedOption(category.id)"
             >
                 {{ category.name }}
             </option>
@@ -24,12 +25,15 @@
 <script>
  export default {
      name : 'SelectOption',
-     props : ['categories', 'category_id'],
+     props : ['categories', 'category_id','form'],
      emits : ['update:category_id'],
 
      methods: {
          focus() {
              this.$refs.select.focus()
+         },
+         selectedOption(option){
+            return option === this.form.category_id ? option : false ;
          }
      }
     }

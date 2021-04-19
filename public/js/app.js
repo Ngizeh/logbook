@@ -17756,11 +17756,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'SelectOption',
-  props: ['categories', 'category_id'],
+  props: ['categories', 'category_id', 'form'],
   emits: ['update:category_id'],
   methods: {
     focus: function focus() {
       this.$refs.select.focus();
+    },
+    selectedOption: function selectedOption(option) {
+      return option === this.form.category_id ? option : false;
     }
   }
 });
@@ -18239,7 +18242,6 @@ __webpack_require__.r(__webpack_exports__);
     addLog: function addLog() {
       var _this = this;
 
-      console.log(this.form);
       this.$inertia.post(route("entries.store"), this.form).then(function () {
         _this.form = {};
       })["catch"](function (error) {
@@ -18311,7 +18313,7 @@ __webpack_require__.r(__webpack_exports__);
     editLog: function editLog() {
       var _this = this;
 
-      axios.patch(route('entries.update', this.entry), this.form).then(function () {
+      this.$inertia.patch(route('entries.update', this.entry), this.form).then(function () {
         _this.form = {};
         window.location.href = route('entries.index');
       })["catch"](function (error) {
@@ -18767,10 +18769,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     "onUpdate:category_id": _cache[2] || (_cache[2] = function ($event) {
       return $props.form.category_id = $event;
     }),
-    categories: $props.categories
+    categories: $props.categories,
+    form: $props.form
   }, null, 8
   /* PROPS */
-  , ["category_id", "categories"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_label, {
+  , ["category_id", "categories", "form"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_label, {
     "for": "description",
     value: "Description"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_text_area, {
@@ -18969,10 +18972,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [_hoisted_2, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.categories, function (category, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("option", {
       key: index,
-      value: category.id
+      value: category.id,
+      selected: $options.selectedOption(category.id)
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 9
     /* TEXT, PROPS */
-    , ["value"]);
+    , ["value", "selected"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))], 544

@@ -7,7 +7,7 @@
 
     <div class="mb-4">
         <breeze-label for="category_id" value="Type"/>
-        <breeze-select-option class="mt-2" id="category_id" v-model:category_id="form.category_id" :categories="categories"></breeze-select-option>
+        <breeze-select-option class="mt-2" id="category_id" v-model:category_id="form.category_id" :categories="categories" :form="form"></breeze-select-option>
     </div>
 
     <div class="mb-4">

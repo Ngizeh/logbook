@@ -36,7 +36,7 @@ export default {
     },
     methods: {
         editLog(){
-            axios.patch(route('entries.update', this.entry), this.form)
+            this.$inertia.patch(route('entries.update', this.entry), this.form)
                 .then(() => {
                     this.form = {};
                     window.location.href = route('entries.index')
