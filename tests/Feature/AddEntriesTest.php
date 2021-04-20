@@ -64,39 +64,15 @@ class AddEntriesTest extends TestCase
 	}
 
 	/** @test **/
-	public function title_is_required_create_an_entry()
+	public function required_fields()
 	{
 		$user = User::factory()->create();
-
-		$this->actingAs($user)
-			->post(route('entries.store'), $this->validData(['title' => null]))
-			->assertSessionHasErrors('title');
-
-		$this->assertEmpty(Entry::all());
-	}
-
-	/** @test **/
-	public function description_is_required_create_an_entry()
-	{
-
-		$user = User::factory()->create();
-
-		$this->actingAs($user)
-			->post(route('entries.store'), $this->validData(['description' => null]))
-			->assertSessionHasErrors('description');
-
-		$this->assertEmpty(Entry::all());
-	}
-
-	/** @test **/
-	public function category_Id_is_required_create_an_entry()
-	{
-		$user = User::factory()->create();
-
-		$this->actingAs($user)
-			->post(route('entries.store'), $this->validData(['category_id' => null]))
-			->assertSessionHasErrors('category_id');
-
+		collect('title', 'description', 'category_id')
+		->each(fn($field) => 
+			$this->actingAs($user)
+			->post(route('entries.store'), $this->validData([$field => null]))
+			->assertSessionHasErrors($field)
+		);
 		$this->assertEmpty(Entry::all());
 	}
 }
