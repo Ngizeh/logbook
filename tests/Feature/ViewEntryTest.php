@@ -14,12 +14,9 @@ class ViewEntryTest extends TestCase
 	/** @test **/
 	public function a_user_can_view_an_entry()
 	{
-		$this->withoutExceptionHandling();
-
-		$user = User::factory()->create();
 		$entry = Entry::factory()->create();
 
-		$this->actingAs($user)
+		$this->actingAs($this->user)
 				->get(route('entries.show', $entry))
 				->assertStatus(200)
 				->assertSee($entry->title)

@@ -15,12 +15,9 @@ class ViewIndexEntriesTest extends TestCase
 	/** @test **/
 	public function a_user_can_view_index_entries()
 	{
-		$this->withoutExceptionHandling();
-
-		$user = User::factory()->create();
 		$entry = Entry::factory()->create();
 
-		$this->actingAs($user)
+		$this->actingAs($this->user)
 			->getJson(route('entries.index'))
 			->assertStatus(200)
 			->assertSee($entry->title)
@@ -31,11 +28,9 @@ class ViewIndexEntriesTest extends TestCase
 	/** @test **/
 	public function user_is_prompted_to_add_an_entry_if_empty()
 	{
-
-		$user = User::factory()->create();
 		$this->assertCount(0, Entry::all());
 
-		$this->actingAs($user)->get(route('entries.index'));
+		$this->actingAs($this->user)->get(route('entries.index'));
 		//				->assertSee("No entry found")
 		//				->assertSee(route('entries.create'));
 
@@ -69,9 +64,7 @@ class ViewIndexEntriesTest extends TestCase
 		Entry::factory()->create(['created_at' => now()->subWeeks(1)]);
 		Entry::factory()->create(['created_at' => now()->subWeeks(3)]);
 
-		$user = User::factory()->create();
-
-		$response = $this->actingAs($user)->get(route('entries.index'));
+		$response = $this->actingAs($this->user)->get(route('entries.index'));
 		$response->assertSee('April 11, 2021');
 		$response->assertSee('April 4, 2021');
 		$response->assertSee('March 28, 2021');
@@ -88,8 +81,6 @@ class ViewIndexEntriesTest extends TestCase
 
 		$this->assertEmpty(Entry::count());
 
-		$user = User::factory()->create();
-
-		$this->actingAs($user)->get(route('entries.index'))->assertSee('April 11, 2021');
+		$this->actingAs($this->user)->get(route('entries.index'))->assertSee('April 11, 2021');
 	}
 }

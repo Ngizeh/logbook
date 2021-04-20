@@ -14,10 +14,9 @@ class DeleteEntryTest extends TestCase
 	/** @test **/
 	public function can_delete_an_entry()
 	{
-		$user = User::factory()->create();
 		$entry = Entry::factory()->create();
 
-		$this->actingAs($user)->delete(route('entries.destroy', $entry))->assertStatus(202);
+		$this->actingAs($this->user)->delete(route('entries.destroy', $entry))->assertStatus(202);
 
 		$this->assertDatabaseMissing('entries', [$entry]);
 	}
