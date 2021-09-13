@@ -1,4 +1,4 @@
-<template>
+	<template>
     <breeze-authentication-layout>
         <div class="w-2/5 mx-auto mt-6">
             <div class="flex justify-between py-4 px-3 bg-gray-200 rounded-t">

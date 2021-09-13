@@ -1,45 +1,19 @@
 <template>
     <breeze-authenticated-layout>
         <div class="container mx-auto pt-10">
-            <div class="">
+            <div class>
                 <div class="w-2/3 text-right mx-auto mb-4">
-                    <inertia-link
-                        :href="route('entries.create')"
-                        class="bg-green-500 py-2 px-3 rounded text-white hover:bg-green-400"
-                        >Add</inertia-link
-                    >
+                    <inertia-link :href="route('entries.create')" class="bg-green-500 py-2 px-3 rounded text-white hover:bg-green-400">Add</inertia-link>
                 </div>
                 <div class="w-2/3 mx-auto text-small">
-                    <div
-                        class="flex justify-between py-5 px-3 bg-gray-200 rounded"
-                    >
-                        <select
-                            class="rounded w-2/4 week"
-                            @change="weeklyEntry($event)"
-                        >
-                            <option
-                                v-for="(date, index) in entriesDate"
-                                :key="index"
-                                :value="date"
-                            >
-                                Week Ending {{ date }}
-                            </option>
+                    <div class="flex justify-between py-5 px-3 bg-gray-200 rounded">
+                        <select class="rounded w-2/4 week" @change="weeklyEntry($event)">
+                            <option v-for="(date, index) in entriesDate" :key="index" :value="date">Week Ending {{ date }}</option>
                         </select>
 
-                        <select
-                            class="rounded w-1/4 selector"
-                            @change="dailyEntry($event)"
-                        >
-                            <option selected value="full_week">
-                                Full Week Entry
-                            </option>
-                            <option
-                                :value="day.val"
-                                v-for="(day, index) in days"
-                                :key="index"
-                            >
-                                {{ day.d }}
-                            </option>
+                        <select class="rounded w-1/4 selector" @change="dailyEntry($event)">
+                            <option selected value="full_week">Full Week Entry</option>
+                            <option :value="day.val" v-for="(day, index) in days" :key="index">{{ day.d }}</option>
                         </select>
                     </div>
                     <entries-table :entries="weeklyEntries"></entries-table>

@@ -21,40 +21,19 @@
                         <breeze-dropdown align="left" width="48">
                             <template #trigger>
                                 <span class="inline-flex rounded-md">
-                                    <button
-                                        type="button"
-                                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="16"
-                                            height="16"
-                                            fill="currentColor"
-                                            class="bi bi-three-dots-vertical"
-                                            viewBox="0 0 16 16"
-                                        >
-                                            <path
-                                                d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"
-                                            />
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                                         </svg>
                                     </button>
                                 </span>
                             </template>
 
                             <template #content>
-                                <breeze-dropdown-link
-                                    :href="route('entries.show', entry)"
-                                >
-                                    View
-                                </breeze-dropdown-link>
-                                <breeze-dropdown-link
-                                    :href="route('entries.edit', entry)"
-                                >
-                                    Edit
-                                </breeze-dropdown-link>
+                                <breeze-dropdown-link :href="route('entries.show', entry)">View</breeze-dropdown-link>
+                                <breeze-dropdown-link :href="route('entries.edit', entry)">Edit</breeze-dropdown-link>
                                 <form @submit.prevent="deleteEntry(entry)">
-                                <button type="submit"
-                                class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Delete</button>
+                                    <button type="submit" class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Delete</button>
                                 </form>
                             </template>
                         </breeze-dropdown>
@@ -66,10 +45,7 @@
                     <td colspan="4" class="text-center py-4">
                         <span>
                             No entry found
-                            <inertia-link :href="route('entries.create')"
-                            class="text-blue-500 hover:text-blue-400"
-                                >Add an entry</inertia-link
-                            >
+                            <inertia-link :href="route('entries.create')" class="text-blue-500 hover:text-blue-400">Add an entry</inertia-link>
                         </span>
                     </td>
                 </tr>
@@ -80,7 +56,7 @@
 
 <script>
 import BreezeDropdown from "@/Components/Dropdown";
-   import BreezeDropdownLink from '@/Components/DropdownLink'
+import BreezeDropdownLink from "@/Components/DropdownLink";
 export default {
     name: "EntriesTable",
     components: { BreezeDropdown, BreezeDropdownLink },

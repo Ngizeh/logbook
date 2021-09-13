@@ -20172,7 +20172,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
           return $options.editLog && $options.editLog.apply($options, arguments);
         }, ["prevent"]))
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_form, {
-        form: $props.entry,
+        form: $data.form,
         categories: $props.categories
       }, null, 8
       /* PROPS */

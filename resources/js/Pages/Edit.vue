@@ -7,7 +7,7 @@
                     <div class="card">
                         <h4 class="text-center pt-4">Edit Entry</h4>
                         <form class="form-group px-4" @submit.prevent="editLog">
-                            <breeze-form :form="entry" :categories="categories"></breeze-form>
+                            <breeze-form :form="form" :categories="categories"></breeze-form>
                         </form>
                     </div>
                 </div>
