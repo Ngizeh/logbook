@@ -19,9 +19,9 @@ class EditEntryTest extends TestCase
     {
         parent::setUp();
 
-        $this->category = factory(Category::class)->create();
+        $this->category = Category::factory()->create();
 
-        $this->entry = factory(Entry::class)->create($this->validData());
+        $this->entry = Entry::factory()->create($this->validData());
     }
 
     private function validData($parameters = []): array
@@ -37,7 +37,7 @@ class EditEntryTest extends TestCase
     public function authenticated_users_can_edit_an_entry()
     {
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->actingAs($user)->get(route('entries.edit', $this->entry))
             ->assertSee($this->category->name)
@@ -62,7 +62,7 @@ class EditEntryTest extends TestCase
     /** @test **/
     public function title_is_required_edit_an_entry()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->actingAs($user)
             ->patch(route('entries.update', $this->entry), $this->validData(['title' => null]))
@@ -75,7 +75,7 @@ class EditEntryTest extends TestCase
     public function description_is_required_create_an_entry()
     {
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->actingAs($user)
             ->patch(route('entries.update', $this->entry), $this->validData(['description' => null]))
@@ -87,7 +87,7 @@ class EditEntryTest extends TestCase
     /** @test **/
     public function category_id_is_required_create_an_entry()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->actingAs($user)
             ->patch(route('entries.update', $this->entry), $this->validData(['category_id' => null]))

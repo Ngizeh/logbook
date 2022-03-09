@@ -16,7 +16,7 @@ class EntriesTest extends TestCase
     /** @test **/
     public function belongs_to_a_category()
     {
-      $entry = factory(Entry::class)->create();
+      $entry = Entry::factory()->create();
 
       $this->assertInstanceOf(Category::class, $entry->category);
     }
@@ -24,7 +24,7 @@ class EntriesTest extends TestCase
     /** @test **/
     public function has_a_short_description()
     {
-        $entry = factory(Entry::class)->create();
+        $entry = Entry::factory()->create();
 
         $this->assertEquals(20, strlen($entry->short_description));
     }
@@ -33,7 +33,7 @@ class EntriesTest extends TestCase
     public function has_formatted_date_attribute()
     {
         Carbon::setTestNow('April 8th 2021 8:01AM');
-        $entry = factory(Entry::class)->create();
+        $entry = Entry::factory()->create();
 
         $this->assertEquals('April 8th 2021 8:01AM', $entry->formatted_date);
     }
@@ -42,8 +42,8 @@ class EntriesTest extends TestCase
     public function entries_for_this_week_static_method()
     {
         Carbon::setTestNow('Friday April 9th, 2021');
-        $thisWeekEntry = factory(Entry::class)->create();
-        $lastWeekEntry = factory(Entry::class)->create(['created_at' => now()->subWeek()]);
+        $thisWeekEntry = Entry::factory()->create();
+        $lastWeekEntry = Entry::factory()->create(['created_at' => now()->subWeek()]);
 
         $entry = Entry::forThisWeek()->get();
 
@@ -56,8 +56,8 @@ class EntriesTest extends TestCase
     public function entries_for_a_week_static_method()
     {
         Carbon::setTestNow('Friday April 9th, 2021');
-        $thisWeekEntry = factory(Entry::class)->create();
-        $lastWeekEntry = factory(Entry::class)->create(['created_at' => now()->subWeek()]);
+        $thisWeekEntry = Entry::factory()->create();
+        $lastWeekEntry = Entry::factory()->create(['created_at' => now()->subWeek()]);
 
         $entry = Entry::forWeekEnding('April 9th, 2021')->get();
 
@@ -70,8 +70,8 @@ class EntriesTest extends TestCase
     public function entries_for_a_day_static_method()
     {
         Carbon::setTestNow('Friday April 9th, 2021');
-        $thisWeekEntry = factory(Entry::class)->create();
-        $lastWeekEntry = factory(Entry::class)->create(['created_at' => now()->subWeek()]);
+        $thisWeekEntry = Entry::factory()->create();
+        $lastWeekEntry = Entry::factory()->create(['created_at' => now()->subWeek()]);
 
         $entry = Entry::forDay('April 9th, 2021')->get();
 

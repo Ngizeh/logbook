@@ -1950,37 +1950,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Create",
   props: ["categories"],
@@ -1998,7 +1967,7 @@ __webpack_require__.r(__webpack_exports__);
     addLog: function addLog() {
       var _this = this;
 
-      this.$inertia.post(route("entries.store"), this.form).then(function () {
+      axios.post(route("entries.store"), this.form).then(function () {
         _this.form = {};
       })["catch"](function (error) {
         return _this.errors = error.response.data.errors;
@@ -2093,34 +2062,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -59554,7 +59495,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container mx-auto" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
+    _c("div", { staticClass: "justify-content-center" }, [
       _c("div", { staticClass: "w-2/3" }, [
         _c("div", { staticClass: "card" }, [
           _c("h4", { staticClass: "text-center pt-4" }, [
@@ -59600,7 +59541,11 @@ var render = function() {
                 _vm._v(" "),
                 _vm.errors
                   ? _c("span", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.errors.title[0]))
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(_vm.errors.title[0]) +
+                          "\n                        "
+                      )
                     ])
                   : _vm._e()
               ]),
@@ -59647,24 +59592,14 @@ var render = function() {
                     _c(
                       "option",
                       { attrs: { selected: "", disabled: "", value: "" } },
-                      [
-                        _vm._v(
-                          "\n                                Choose your category\n                            "
-                        )
-                      ]
+                      [_vm._v("Choose your category")]
                     ),
                     _vm._v(" "),
                     _vm._l(_vm.categories, function(category, index) {
                       return _c(
                         "option",
                         { key: index, domProps: { value: category.id } },
-                        [
-                          _vm._v(
-                            "\n                                " +
-                              _vm._s(category.name) +
-                              "\n                            "
-                          )
-                        ]
+                        [_vm._v(_vm._s(category.name))]
                       )
                     })
                   ],
@@ -59673,7 +59608,11 @@ var render = function() {
                 _vm._v(" "),
                 _vm.errors
                   ? _c("span", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.errors.category_id[0]))
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(_vm.errors.category_id[0]) +
+                          "\n                        "
+                      )
                     ])
                   : _vm._e()
               ]),
@@ -59711,39 +59650,31 @@ var render = function() {
                 _vm._v(" "),
                 _vm.errors
                   ? _c("span", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.errors.description[0]))
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(_vm.errors.description[0]) +
+                          "\n                        "
+                      )
                     ])
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "d-flex justify-content-between" },
-                [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: { type: "submit" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                            Submit\n                        "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "inertia-link",
-                    {
-                      staticClass: "btn btn-link",
-                      attrs: { href: _vm.route("entries.index") }
-                    },
-                    [_vm._v("Cancel")]
-                  )
-                ],
-                1
-              )
+              _c("div", { staticClass: "d-flex justify-content-between" }, [
+                _c(
+                  "button",
+                  { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+                  [_vm._v("Submit")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-link",
+                    attrs: { href: _vm.route("entries.index") }
+                  },
+                  [_vm._v("Cancel")]
+                )
+              ])
             ]
           )
         ])
@@ -60081,11 +60012,7 @@ var render = function() {
                                 staticClass: "dropdown-item",
                                 attrs: { type: "submit" }
                               },
-                              [
-                                _vm._v(
-                                  "\n                                    Delete\n                                "
-                                )
-                              ]
+                              [_vm._v("Delete")]
                             )
                           ]
                         )

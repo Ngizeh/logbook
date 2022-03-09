@@ -17,7 +17,7 @@ class AddEntriesTest extends TestCase
 	public function setUp(): void
 	{
 		parent::setUp();
-		$this->category = factory(Category::class)->create();
+		$this->category = Category::factory()->create();
 	}
 
 	public function validData($parameters = []): array
@@ -34,7 +34,7 @@ class AddEntriesTest extends TestCase
 	{
 		$this->withoutExceptionHandling();
 
-		$user = factory(User::class)->create();
+		$user = User::factory()->create();
 
 		$this->actingAs($user)->get(route('entries.create'))
 		->assertSee($this->category->name)
@@ -66,7 +66,7 @@ class AddEntriesTest extends TestCase
 	/** @test **/
 	public function title_is_required_create_an_entry()
 	{
-		$user = factory(User::class)->create();
+		$user = User::factory()->create();
 
 		$this->actingAs($user)
 			->post(route('entries.store'), $this->validData(['title' => null]))
@@ -79,7 +79,7 @@ class AddEntriesTest extends TestCase
 	public function description_is_required_create_an_entry()
 	{
 
-		$user = factory(User::class)->create();
+		$user = User::factory()->create();
 
 		$this->actingAs($user)
 			->post(route('entries.store'), $this->validData(['description' => null]))
@@ -91,7 +91,7 @@ class AddEntriesTest extends TestCase
 	/** @test **/
 	public function category_Id_is_required_create_an_entry()
 	{
-		$user = factory(User::class)->create();
+		$user = User::factory()->create();
 
 		$this->actingAs($user)
 			->post(route('entries.store'), $this->validData(['category_id' => null]))

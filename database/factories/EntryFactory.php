@@ -1,18 +1,23 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Category;
-use App\Entry;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
-$factory->define(Entry::class, function (Faker $faker) {
-    $timeOfDay = ['Morning', 'Afternoon', 'Evening'];
+class EntryFactory extends Factory
+{
+	public function definition()
+	{
+	    $timeOfDay = ['Morning', 'Afternoon', 'Evening'];
 
-    return [
-        'title' => Arr::random($timeOfDay),
-        'description' => $faker->paragraph,
-        'category_id' => fn() => factory(Category::class)
-    ];
-});
+	    return [
+	        'title' => Arr::random($timeOfDay),
+	        'description' => $this->faker->paragraph,
+	        'category_id' => fn() => Category::factory()->create()
+	    ];
+
+	}
+
+}

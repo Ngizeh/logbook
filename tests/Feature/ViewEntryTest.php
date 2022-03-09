@@ -16,8 +16,8 @@ class ViewEntryTest extends TestCase
 	{
 		$this->withoutExceptionHandling();
 
-		$user = factory(User::class)->create();
-		$entry = factory(Entry::class)->create();
+		$user = User::factory()->create();
+		$entry = Entry::factory()->create();
 
 		$this->actingAs($user)
 				->get(route('entries.show', $entry))
@@ -32,7 +32,7 @@ class ViewEntryTest extends TestCase
 	/** @test **/
 	public function guest_can_not_view_an_entry()
 	{
-		$entry = factory(Entry::class)->create();
+		$entry = Entry::factory()->create();
 		$this->get(route('entries.show', $entry));
         $this->assertGuest();
 	}
