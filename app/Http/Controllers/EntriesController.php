@@ -6,7 +6,6 @@ use App\Category;
 use App\Entry;
 use App\Http\Requests\EntryRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
@@ -22,9 +21,10 @@ class EntriesController extends Controller
         $weekly = Entry::forThisWeek()->latest()->get();
         $dates = $this->getDates();
 
-        if(request()->wantsJson()){
+        if (request()->wantsJson()) {
             return [$weekly, $dates];
         }
+
         return view('entries.index', [
             'weeklyEntries' => $weekly,
             'entriesDate' => $dates,
@@ -33,12 +33,10 @@ class EntriesController extends Controller
 
     /**
      * Show a form to create a resource
-     *
-     * @return  View
      */
     public function create(): View
     {
-        $categories =  Category::all();
+        $categories = Category::all();
 
         return view('entries.create', compact('categories'));
     }
@@ -46,9 +44,8 @@ class EntriesController extends Controller
     /**
      * Create a resource from a form request
      *
-     * @param   EntryRequest  $request  Form Request Validation
-     *
-     * @return  JsonResponse Response
+     * @param  EntryRequest  $request  Form Request Validation
+     * @return JsonResponse Response
      */
     public function store(EntryRequest $request): JsonResponse
     {
@@ -61,10 +58,6 @@ class EntriesController extends Controller
 
     /**
      * Edit a specified resource from the Route model binding
-     *
-     * @param   Entry  $entry
-     *
-     * @return View
      */
     public function edit(Entry $entry): View
     {
@@ -76,9 +69,7 @@ class EntriesController extends Controller
     /**
      * Update a specific resource
      *
-     * @param   EntryRequest  $request
-     * @param   Entry         $entry
-     * @return  JsonResponse
+     * @return JsonResponse
      */
     public function update(EntryRequest $request, Entry $entry)
     {
@@ -89,19 +80,13 @@ class EntriesController extends Controller
 
     /**
      * Show a specified resource
-     *
-     * @param   Entry  $entry
-     *
-     * @return View
      */
-    public function show(Entry $entry) : View
+    public function show(Entry $entry): View
     {
         return view('entries.show', compact('entry'));
     }
 
     /**
-     * @param Entry $entry
-     * @return JsonResponse
      * @throws \Exception
      */
     public function destroy(Entry $entry): JsonResponse
@@ -113,7 +98,6 @@ class EntriesController extends Controller
 
     /**
      * Get Dates for the weeks entries
-     * @return Collection
      */
     private function getDates(): Collection
     {
@@ -123,7 +107,7 @@ class EntriesController extends Controller
 
         $now = now()->endOfWeek()->format($dateFormat);
 
-        if(!$oldest){
+        if (! $oldest) {
             return collect($now);
         }
 
@@ -133,15 +117,15 @@ class EntriesController extends Controller
 
         $dates = [];
         $currentDate = $latest;
-        for($i = $diff; $i >= 0; $i--){
+        for ($i = $diff; $i >= 0; $i--) {
             $dates[] = $currentDate->format($dateFormat);
             $currentDate = $currentDate->copy()->subWeek();
         }
 
-        if($now !== $dates[0]) {
+        if ($now !== $dates[0]) {
             array_unshift($dates, $now);
         }
+
         return collect($dates);
     }
-
 }
